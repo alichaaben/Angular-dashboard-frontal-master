@@ -1,0 +1,105 @@
+
+<div class="container ">
+  <ol class="breadcrumb shadow-lg bg-white">
+
+      <li class="breadcrumb-item ">  <a  routerLink="/pages" class="breadcrumbs__link"> <i class="pi pi-home"></i> Accueil</a></li>
+      <li class="breadcrumb-item "> <a routerLink="/pages/facture/Produits" class="breadcrumbs__link">Produits</a></li>
+      <li class="breadcrumb-item "><a   routerLink="facture/Modifierproduit/:idProduit"  class="breadcrumbs__link breadcrumbs__link--active">Modifier produit</a> </li>
+  </ol>
+</div>
+  <br>
+<p-toast></p-toast>
+<form [formGroup]="updateform"  (ngSubmit)="submit()"  >
+
+<p-panel header="Modifier produitAD">
+
+
+
+
+<div class="row">
+
+<div class="col-md-6">
+  <div class="form-group">
+    <label class="label">Nom Produit :<span style="color: red">*</span></label>
+
+    <input type="text"   formControlName="nomProduit" class="form-control"/>
+  </div>
+</div>
+<div class="col-md-6">
+
+  <div class="ui-g ui-fluid">
+    <div class="form-group">
+      <label class="label">Description :<span style="color: red">*</span></label>
+
+        <input pInputText type="text"   formControlName="descriptionProduit" class="form-control"/>
+        </div>
+
+</div>
+</div>
+<div class="col-md-6">
+  <div class="ui-g ui-fluid">
+    <div class="form-group">
+      <label class="label">Type D'abonnement :<span style="color: red">*</span></label>
+      <select class="form-control"  formControlName="typeAbonnement" name="type" aria-label="Default select example" placeholder="Choisir Type D'abonnement "
+      type="text"  >
+      <option *ngFor="let a of Key()">{{a}}</option>
+     </select>
+
+      </div>
+    </div>
+</div>
+<div class="col-md-6">
+
+  <div class="ui-g ui-fluid">
+    <div class="form-group">
+      <label class="label">Prix :<span style="color: red">*</span></label>
+
+      <input type="text" formControlName="prixProduit" class="form-control"
+               />
+    </div>
+    </div>
+</div>
+
+
+
+
+<div class="col-md-6">
+
+  <div class="ui-g ui-fluid">
+    <div class="form-group">
+      <label class="label">Code :<span style="color: red">*</span></label>
+
+      <input type="text" formControlName="codeProduitRef" class="form-control"
+               />
+    </div>
+    </div>
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+    <br>
+    <p-footer>
+
+
+      <div class="buttonPar">
+
+
+          <button nbButton  status="primary" type="submit" name="montant"  label="modifier">modifier</button>
+
+        </div>
+
+
+    </p-footer>
+
+
+</p-panel>
+</form>

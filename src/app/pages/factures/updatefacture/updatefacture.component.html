@@ -1,0 +1,342 @@
+
+
+
+<div class="container ">
+  <ol class="breadcrumb shadow-lg bg-white">
+
+      <li class="breadcrumb-item ">  <a  routerLink="/pages" class="breadcrumbs__link"> <i class="pi pi-home"></i> Accueil</a></li>
+      <li class="breadcrumb-item "> <a routerLink="/pages/facture/listfactures" class="breadcrumbs__link">List des factures</a></li>
+      <li class="breadcrumb-item "><a routerLink="/pages/facture/ModifierFacture/id"  class="breadcrumbs__link breadcrumbs__link--active">Modifier Facture</a> </li>
+  </ol>
+</div>
+
+
+
+
+<br>
+
+
+
+
+<p-toast></p-toast>
+
+
+ <!--section 1-->
+
+<form [formGroup]="updatefactform" (ngSubmit)="Updatefacture()"   >
+<p-panel header="Modifier la facture">
+
+
+
+
+
+
+    <div class="ui-g ui-fluid"  >
+      <div class="form-group">
+        <label class="label">Numéro de facture :<span style="color: red">*</span></label>
+        <input type="text" nbInput     fullWidth
+        maxlength="100" formControlName="numFacture" disabled="" class="form-control"
+                 />
+      </div>
+
+      <div class="form-group">
+        <label class="label">Notes :<span style="color: red">*</span></label>
+      
+      
+                 <textarea nbInput fullWidth placeholder="Textarea" formControlName="termsandNotes" class="form-control"  maxlength="100"></textarea>
+      </div>
+
+
+
+      <div class="row">
+<div class="col-md-6">
+  <div class="form-group">
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label class="label">Status Facture :<span style="color: red">*</span></label>
+      <div class="ui-g-8">
+          <select class="form-control" nbInput  formControlName="statusFacture" name="type" aria-label="Default select example" placeholder="Choisir Type D'abonnement "
+          type="text"                (change)="onChangeToPay($event.target.value)">
+          <option *ngFor="let a of Key()">{{ a }}</option>
+           </select>
+     </div>
+   </div>
+  </div>
+</div>
+
+</div>
+<div *ngIf="showTyperReglement"  class="col-md-6">
+  <div class="ui-g-12">
+    <div class="ui-g-4">
+      <label class="label">Type de Reglement:<span style="color: red">*</span></label>
+    </div>
+      <div class="ui-g-8">
+        <select class="form-control" fullWidth
+        maxlength="100" formControlName="typeReglement" name="type" aria-label="Default select example" placeholder="Type de Reglemnt "
+        type="text"  >
+        <option *ngFor="let t of Key2()">{{ t }}</option>
+          </select>
+        </div>
+</div>
+</div>
+
+
+      </div>
+      <div *ngIf="showMontant"  class="col-md-6">
+        <div class="ui-g-12">
+
+        <button type="button" nbButton
+        outline status="primary" name="montant" (click)="showsavedialog()"  label="modifier">Ajouter Montant</button>
+        </div>
+      </div>
+ </div>
+
+
+
+
+ <!--section 2-->
+ <div class="row">
+  <div class="col-md-4" style="margin-top: 40px">
+    <h6 class="label">montant à payer : <h6 style="margin-top: 20px">{{selectedFacture?.totalpricetva}} Dt</h6></h6>
+  </div>
+  <div class="col-md-4" style="margin-top: 40px">
+    <h6 class="label">
+      Montant déjà payé :
+      <h6 style="margin-top: 20px">{{this.totalMont}} Dt</h6>
+    </h6>
+  </div>
+  <div class="col-md-4" style="margin-top: 40px">
+    <h6 class="label">
+      montant restant :
+      <h6 style="margin-top: 20px">{{this.Montrestant}} Dt</h6>
+    </h6>
+  </div>
+
+</div>
+
+<p-messages [(value)]="msgs1" [enableService]="false"></p-messages>
+
+<div class="container rounded mt-5 bg-white p-md-5" *ngIf="listmontants?.length">
+  <div class="table-responsive" >
+    <div class="h2 font-weight-bold" >detail des montants Payés     <button pButton pRipple type="button" (click)="showsavedialog()" icon="pi pi-plus" ></button>
+    </div>
+
+
+
+      <table class="table">
+          <thead>
+              <tr>
+                  <th scope="col">Montant(Dt)</th>
+                  <th scope="col"></th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Type de paiement</th>
+                  <th scope="col">N chéque</th>
+
+                  <th scope="col"></th>
+
+
+              </tr>
+          </thead>
+          <tbody >
+              <tr class="bg-blue" *ngFor="let Montantpartiel of listmontants"  >
+                  <td class="pt-2">
+                      <img src="assets/images/bancaire.png" class="rounded-circle" alt="">
+                      <div class="pl-lg-5 pl-md-3 pl-1 name">{{Montantpartiel.montant}}</div>
+                  </td>
+                  <td class="pt-3 mt-1"></td>
+                  <td class="pt-3">{{Montantpartiel.dateCreation | date :'dd/MM/yyyy'}}</td>
+                  <td class="pt-3">{{Montantpartiel.paymentType}}</td>
+                  <td class="pt-3">{{Montantpartiel.checkNumber}}</td>
+
+
+                  <td class="pt-3"><span >                <button pButton pRipple type="button" icon="pi pi-trash" (click)="ArchiverMontant(Montantpartiel.idMontant)" class="p-button-rounded p-button-danger"></button>
+                  </span></td>
+              </tr>
+
+
+              <tr id="spacing-row">
+                  <td></td>
+              </tr>
+
+
+
+          </tbody>
+      </table>
+
+  </div>
+</div>
+
+    <p-footer>  
+      <div class="row">
+        <div class="col-md-6">
+          <div class="ui-g ui-fluid">
+            <div class="form-group">
+
+                <nb-card-body class="example-items-rows">
+                <nb-toggle status="danger" formControlName="softdelete"> </nb-toggle>
+              </nb-card-body>
+                </div>
+        </div>
+        </div>
+
+        <div class="col-md-6">
+
+      <div class="buttonPar">
+
+        <button type="button" nbButton
+        status="primary" type="Updatefacture"  name="montant"  label="modifier">modifier</button>
+
+      </div>
+        </div>
+      </div>
+
+  </p-footer>
+
+</p-panel>
+
+</form>
+
+
+
+ <!--Ajout de montant partiel Dialog-->
+
+<form [formGroup]="montantform"  >
+
+<p-dialog header="Ajouter le montant "    styleClass="myClass"
+[(visible)]="displaysaveDialog"
+[responsive]="true"
+[style]="{ width: '700px' }"
+>
+
+  <div class="form-group" *ngIf="selectedFacture">
+    <label class="label">Nom de partenaire: <span style="color: rgb(8, 193, 79)"> {{selectedFacture.name}}</span></label>
+
+  </div>
+
+  <div class="form-group">
+    <label class="label">Montant Total(Dt): <span style="color: rgb(8, 193, 79)">{{selectedFacture?.totalpricetva}}</span></label>
+
+  </div>
+
+  <div class="form-group">
+    <label class="label">Montant partiel(Dt) :<span style="color: red">*</span></label>
+    <input type="number" nbInput  formControlName="Montant"   fullWidth  id="Montant"
+    maxlength="6"  class="form-control"
+    [class.invalid]=" montantform.get('Montant').invalid &&
+    (montantform.get('Montant').dirty || montantform.get('Montant').touched)"  />
+
+    <div class="warn">
+      <ng-container *ngIf="montantform.get('Montant').invalid &&
+      montantform.get('Montant').errors &&
+      (montantform.get('Montant').dirty || montantform.get('Montant').touched)  ">
+  <small class="text-danger"
+      *ngIf="montantform.get('Montant').hasError('required')">
+       le champ montant est obligatoire.
+  </small>
+  </ng-container>
+
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="ui-g-8">
+      <label class="label">Type de paiement :  <span style="color: red">*</span></label>
+    </div>
+        <select
+          class="form-control"
+          formControlName="paymentT" 
+          aria-label="Default select example"
+          type="text"
+
+          (change)="onChangepaimentType($event.target.value)"
+          [class.invalid]=" montantform.get('paymentT').invalid &&
+          (montantform.get('paymentT').dirty || montantform.get('paymentT').touched)" 
+        >
+          <option [ngValue]="undefined" selected>
+            Selectionner type de paiement
+          </option>
+          <option
+            name="designation"
+            *ngFor="let u of listtypepayment"
+            [value]="u.designation">
+            {{ u.designation }}
+
+            
+          </option>
+        </select>
+        <div class="warn">
+          <ng-container *ngIf="montantform.get('paymentT').invalid &&
+          montantform.get('paymentT').errors &&
+          (montantform.get('paymentT').dirty || montantform.get('paymentT').touched)">
+      <small class="text-danger"
+          *ngIf="montantform.get('paymentT').hasError('required')">
+           le champ type de paiement est obligatoire.
+      </small>
+      </ng-container>
+    
+        </div>
+    </div>
+
+
+    <div class="form-group" *ngIf="showpaymentType">
+      <label class="label">Numéro de chéque : :<span style="color: red">*</span></label>
+      <input type="number" nbInput  shape="round"   fullWidth  id="cc" type="text" name="cc" pInputText   placeholder="1234-1234-1234-1234-1234" style="margin-right: .5em"
+        class="form-control"             formControlName="chequenumb"
+
+               />
+
+               
+
+    </div>
+
+
+
+  <div class="form-group">
+    <label class="label">Date de payment :<span style="color: red">*</span></label>
+    <input type="date" nbInput  formControlName="dateCreation"   fullWidth
+    maxlength="100"  class="form-control"
+             />
+  </div>
+
+ 
+
+
+  <p-footer>
+
+    <div class="buttonPar">
+
+      <button type="button" nbButton
+      status="primary" (click)="closedialog()" name="montant"  [disabled]="!montantform.valid"  label="modifier">confirmer</button>
+
+    </div>
+
+  </p-footer>
+</p-dialog>
+</form>
+
+
+
+<!--
+<nb-card>
+  <nb-card-body>
+
+
+    <table>
+
+      <tr>
+        <th>Date</th>
+        <th>Montant(dt)</th>
+      </tr>
+      <tr *ngFor="let Montantpartiel of listmontants">
+        <td>{{Montantpartiel.dateCreation | date :'dd/MM/yyyy'}}</td>
+        <td>{{Montantpartiel.montant}}</td>
+
+      </tr>
+
+
+    </table>
+
+  </nb-card-body>
+</nb-card> -->
+
+<p-confirmDialog [style]="{ width: '750 px' }"></p-confirmDialog>

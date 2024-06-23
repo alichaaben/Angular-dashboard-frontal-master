@@ -1,0 +1,121 @@
+<div class="bcca-breadcrumb">
+  <div class="bcca-breadcrumb-item">List des partenaires <i class="fa fa-pencil"></i></div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/dashboard']" >Home</a>  </div>
+</div>
+<nb-card>
+  <nb-card-header>
+    
+   <h5>Gestion des points de vente</h5> 
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="card">
+      <p-table
+        #dt
+        dataKey="id"
+        [value]="ListPartenaires"
+        [paginator]="true"
+        [rows]="5"
+        [rowsPerPageOptions]="[5, 10, 15]"
+        [(first)]="first"
+        [totalRecords]="6"
+        pageLinkSize="6"
+        (sortFunction)="customSort($event)"
+        [globalFilterFields]="[
+          'raisonSociale',
+          'nTel',
+          'adresse',
+          'dateCreation',
+          'abbreviation',
+          'matriculeFiscale'
+        ]"
+      >
+        <ng-template pTemplate="caption">
+          <h6>Tables des partenaires</h6>
+          <div class="my-right">
+            <span class="p-input-icon-left ml-auto">
+              <input
+                style="height: 40px"
+                pInputText
+                type="text"
+                (input)="dt.filterGlobal($event.target.value, 'contains')"
+                placeholder="   Rechercher "
+              />
+            </span>
+            <br />
+            <br />
+          </div>
+        </ng-template>
+    
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="raisonSociale">
+              Raison sociale <p-sortIcon field="matriculeFiscale"></p-sortIcon>
+            </th>
+            <th pSortableColumn="adresse">
+              ADRESSE <p-sortIcon field="adresse"></p-sortIcon>
+            </th>
+            <th pSortableColumn="abbreviation">
+              Abbreviation <p-sortIcon field="abbreviation"></p-sortIcon>
+            </th>
+            <th pSortableColumn="nTel">
+              Numero téléphone <p-sortIcon field="nTel"></p-sortIcon>
+            </th>
+    
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-partner>
+          <tr>
+            <td style="color: aqua">
+              <h6>{{ partner.raisonSociale }}</h6>
+            </td>
+            <td>{{ partner.adresse }}</td>
+            <td>{{ partner.abbreviation }}</td>
+            <td>{{ partner.nTel }}</td>
+    
+            <td>
+              <a [routerLink]="['/pages/points-vente', partner.idPartenaire]">
+                <button
+                  title="accéder au points de ventes"
+                  pButton
+                  pRipple
+                  icon="pi pi-eye"
+                  class="p-button-rounded p-button-warning mr-2"
+                ></button
+              ></a>
+              <a
+                [routerLink]="[
+                  '/pages/points-vente/localisation-point-vente/',
+                  partner.idPartenaire
+                ]"
+              >
+                <button
+                  title="Localisation des points de vente sur le map"
+                  pButton
+                  pRipple
+                  icon="pi pi-map-marker"
+                  class="p-button-rounded p-button-success mr-2"
+                ></button
+              ></a>
+            </td>
+          </tr>
+        </ng-template>
+    
+        <ng-template pTemplate="summary">
+          <div style="font-weight: bold;" class="my-right">{{ ListPartenaires?.length }} partenaire (s)</div>
+        </ng-template>
+      </p-table>
+    </div>
+    
+    <p-dialog
+      [(visible)]="display"
+      [breakpoints]="{ '960px': '75vw', '640px': '100vw' }"
+      [style]="{ width: '50vw' }"
+    >
+    </p-dialog>
+  </nb-card-body>
+  <nb-card-footer>
+  </nb-card-footer>
+</nb-card>
+

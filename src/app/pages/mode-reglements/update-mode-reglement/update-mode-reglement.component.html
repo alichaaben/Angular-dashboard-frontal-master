@@ -1,0 +1,227 @@
+<div class="bcca-breadcrumb">
+  <div class="bcca-breadcrumb-item">modifier mode réglement<i class="fa fa-pencil"></i></div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/mode-reglement/list-mode-reglement']" >List mode de réglement</a>  </div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/dashboard']" >Home</a>  </div>
+</div>
+<nb-card>
+  <nb-card-header><h5>Modifier mode de réglement</h5></nb-card-header>
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+  <nb-card-body>
+    <form
+      [formGroup]="ModeReglementForm"
+      (ngSubmit)="enregistrer()"
+      style="margin-bottom: 30px"
+    >
+      <div class="row">
+        <div class="col-sm-6">
+          <label class="label"
+            >Désignation <span style="color: red">*</span></label
+          >
+          <input
+            type="text"
+            nbInput
+            fullWidth
+            placeholder="Désignation"
+            class="form-control"
+            formControlName="designationMR"
+          />
+        </div>
+        <div class="col-sm-6">
+          <label class="label">Code <span style="color: red">*</span></label>
+          <input
+            type="text"
+            nbInput
+            fullWidth
+            placeholder="code"
+            class="form-control"
+            formControlName="codeMR"
+          />
+        </div>
+        <div class="col-sm-6">
+          <label class="label">Couleur <span style="color: red">*</span></label>
+          <input
+            type="color"
+            nbInput
+            fullWidth
+            placeholder="couleur"
+            class="form-control"
+            formControlName="couleur"
+          />
+        </div>
+
+        <div style="margin-top: 20px" class="row">
+          <div class="col-sm">
+            <fieldset>
+              <legend>FNum<span style="color: red">*</span></legend>
+
+              <div>
+                <input
+                  type="radio"
+                  name="FNum"
+                  formControlName="FNum"
+                  [value]="1"
+                /><label>oui</label>
+              </div>
+
+              <div>
+                <input
+                  type="radio"
+                  name="FNum"
+                  formControlName="FNum"
+                  [value]="0"
+                />
+                <label>non</label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-sm">
+            <fieldset>
+              <legend>FFidelite<span style="color: red">*</span></legend>
+
+              <div>
+                <input
+                  type="radio"
+                  name="FFidelite"
+                  formControlName="FFidelite"
+                  [value]="1"
+                /><label>oui</label>
+              </div>
+
+              <div>
+                <input
+                  type="radio"
+                  name="FFidelite"
+                  formControlName="FFidelite"
+                  [value]="0"
+                />
+                <label>non</label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-sm">
+            <fieldset>
+              <legend>FDate<span style="color: red">*</span></legend>
+
+              <div>
+                <input
+                  type="radio"
+                  name="FDate"
+                  formControlName="FDate"
+                  [value]="1"
+                /><label>oui</label>
+              </div>
+
+              <div>
+                <input
+                  type="radio"
+                  name="FDate"
+                  formControlName="FDate"
+                  [value]="0"
+                />
+                <label>non</label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-sm">
+            <fieldset>
+              <legend>Activé<span style="color: red">*</span></legend>
+
+              <div>
+                <input
+                  type="radio"
+                  name="isactif"
+                  formControlName="isactif"
+                  [value]="1"
+                /><label>oui</label>
+              </div>
+
+              <div>
+                <input
+                  type="radio"
+                  name="isactif"
+                  formControlName="isactif"
+                  [value]="0"
+                />
+                <label>non</label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-sm">
+            <fieldset>
+              <legend>Fdefault<span style="color: red">*</span></legend>
+
+              <div>
+                <input
+                  type="radio"
+                  name="fdefault"
+                  formControlName="fdefault"
+                  [value]="1"
+                /><label>oui</label>
+              </div>
+
+              <div>
+                <input
+                  type="radio"
+                  name="fdefault"
+                  formControlName="fdefault"
+                  [value]="0"
+                />
+                <label>non</label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-sm">
+            <fieldset>
+              <legend>Validation<span style="color: red">*</span></legend>
+
+              <div>
+                <input
+                  type="radio"
+                  name="FValidation"
+                  formControlName="FValidation"
+                  [value]="1"
+                /><label>oui</label>
+              </div>
+
+              <div>
+                <input
+                  type="radio"
+                  name="FValidation"
+                  formControlName="FValidation"
+                  [value]="0"
+                />
+                <label>non</label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <button
+        nbButton
+        style="float: left; border-color: white; margin-top: 15px"
+        type="submit"
+        status="danger"
+        class="btn btn-danger mx-2"
+        (click)="annuler()"
+      >
+        Annuler
+      </button>
+
+      <button
+        nbButton
+        style="
+          float: right;
+          border-color: white;
+          margin-top: 15px;
+          background: #79008e;
+        "
+        type="submit"
+        status="success"
+        class="btn btn-primary mx-2"
+      >
+        ENREGISTRER
+      </button>
+    </form></nb-card-body
+  >
+</nb-card>

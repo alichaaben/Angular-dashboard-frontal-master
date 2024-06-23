@@ -1,0 +1,182 @@
+<div class="bcca-breadcrumb">
+  <div class="bcca-breadcrumb-item"> points de vente de : {{monPartenaire?.raisonSociale}} <i class="fa fa-pencil"></i></div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/points-vente/list-points-vente']" >List des partenaires</a>  </div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/dashboard']" >Home</a>  </div>
+</div>
+<nb-card>
+  <nb-card-header>
+    <div>
+      <div class="col-md-6">
+        <span style="font-size: 25px">Gestion des points de vente </span>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="card">
+      <p-table
+        #dt
+        dataKey="id"
+        [value]="listPointventes"
+        [paginator]="true"
+        [rows]="5"
+        [rowsPerPageOptions]="[5, 10, 15]"
+        [(first)]="first"
+        [totalRecords]="6"
+        pageLinkSize="6"
+        (sortFunction)="customSort($event)"
+        [globalFilterFields]="[
+          'adresse',
+          'designation',
+          'dateCreation',
+          'typePv',
+          'dateCreation',
+          'fActif'
+        ]"
+      >
+        <ng-template pTemplate="caption">
+          <h5>Table des points de vente</h5>
+          <h6>{{ monPartenaire?.raisonSociale }}</h6>
+
+          <div class="my-right">
+            <a
+              [routerLink]="[
+                '/pages/points-vente/ajouter-point-vente/',
+                idPartenaire
+              ]"
+            >
+              <button
+                pButton
+                style="margin-bottom: 30px"
+                label="Ajouter nouveau point de vente"
+                class="p-button-info"
+                icon="pi pi-shopping-cart"
+              ></button
+            ></a>
+            <br />
+            <span class="p-input-icon-left ml-auto">
+              <input
+                style="height: 40px; text-align: center"
+                pInputText
+                type="text"
+                (input)="dt.filterGlobal($event.target.value, 'contains')"
+                placeholder="  Rechercher  "
+              />
+            </span>
+            <br />
+          </div>
+        </ng-template>
+
+        <a
+          [routerLink]="[
+            '/pages/points-vente/ajouter-point-vente/',
+            idPartenaire
+          ]"
+        >
+          <button
+            pButton
+            label="Localisation des points de ventes"
+            class="p-button-info"
+          >
+            <i class="pi pi-map-marker"> &nbsp;</i>
+          </button></a
+        >
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="designation">
+              Designation <p-sortIcon field="designation"></p-sortIcon>
+            </th>
+            <th pSortableColumn="adresse">
+              Adresse <p-sortIcon field="adresse"></p-sortIcon>
+            </th>
+
+            <th pSortableColumn="typePv">
+              Type point vente <p-sortIcon field="typePv"></p-sortIcon>
+            </th>
+
+            <th pSortableColumn="dateCreation">
+              Date création <p-sortIcon field="dateCreation"></p-sortIcon>
+            </th>
+
+            <th style="text-align: center;" pSortableColumn="fActif">
+              Status <p-sortIcon field="fActif"></p-sortIcon>
+            </th>
+
+            <th style="text-align: center;">Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-pointVente>
+          <tr>
+            <td>
+              <h6>{{ pointVente.designation }}</h6>
+            </td>
+            <td>{{ pointVente.adresse }}</td>
+            <td>{{ pointVente.typePv }}</td>
+            <td>{{ pointVente.dateCreation | date: "dd/MM/yyyy" }}</td>
+            <td style="text-align: center;">
+              <div *ngIf="pointVente.fActif">
+                <button class="btn-actif">actif</button>
+              </div>
+              <div *ngIf="pointVente.fActif == 0">
+                <button class="btn-inactif">inactif</button>
+              </div>
+            </td>
+
+            <td>
+              <a
+                [routerLink]="[
+                  '/pages/points-vente/modifier-point-vente/',
+                  pointVente.idPointVente
+                ]"
+              >
+                <button
+                  title="modifier point de vente"
+                  pButton
+                  pRipple
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-info mr-2"
+                ></button
+              ></a>
+              <button
+                title="bloquer"
+                pButton
+                pRipple
+                icon="pi pi-lock"
+                [hidden]="pointVente.fActif == 0"
+                class="p-button-rounded p-button-warning"
+                (click)="blockPointVente(pointVente.idPointVente)"
+              ></button>
+              <button
+                title="débloquer"
+                pButton
+                pRipple
+                icon="pi pi-lock-open"
+                [hidden]="pointVente.fActif == 1"
+                class="p-button-rounded p-button-warning"
+                (click)="deblockPointVente(pointVente.idPointVente)"
+              ></button>
+              <!-- &nbsp;
+              <button
+                title="supprimer"
+                pButton
+                pRipple
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-danger"
+                (click)="deletePointVente(pointVente.idPointVente)"
+              ></button> -->
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary">
+          <div class="my-right" style="font-weight: bold">
+            {{ listPointventes?.length }} points vente(s)
+          </div>
+        </ng-template>
+      </p-table>
+    </div>
+  </nb-card-body>
+</nb-card>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>

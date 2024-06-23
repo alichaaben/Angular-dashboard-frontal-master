@@ -1,0 +1,60 @@
+
+<!--bread crumps-->
+<!-- <div >
+  <nav  >
+    <ol class="cd-breadcrumb">
+      <li><a routerLink="{"><i class="fa fa-home"></i>Accueil</a></li>
+      <li class="current"><em>timeline</em></li>
+      <li class="current"><em>dddd</em></li>
+    </ol>
+  </nav>
+
+</div> -->
+
+
+
+<div class="container ">
+  <ol class="breadcrumb shadow-lg bg-white">
+
+      <li class="breadcrumb-item ">  <a  routerLink="/pages" class="breadcrumbs__link"> <i class="pi pi-home"></i> Accueil</a></li>
+      <li class="breadcrumb-item "> <a routerLink="/pages/facture/listfactures" class="breadcrumbs__link">List des factures</a></li>
+      <li class="breadcrumb-item "><a   routerLink="/pages/facture/listfactures/timelinefacture/:id"  class="breadcrumbs__link breadcrumbs__link--active">Timeline</a> </li>
+  </ol>
+</div>
+
+
+ <!-- <p-card header="Timeline Facture" >
+	<p-timeline [value]="timelinebyidfacture" align="alternate" styleClass="customized-timeline">
+		<ng-template pTemplate="marker" let-event>
+			<span class="custom-marker p-shadow-3" [style.backgroundColor]="event.color">
+                <i [ngClass]="event.icon"></i>
+                <i class="pi pi-check"></i>
+
+            </span>
+		</ng-template>
+		<ng-template pTemplate="content" let-event>
+			<p-card [header]="event.etats" [subheader]="event.dateCreation">
+				<p></p>
+				<button pButton label="Read more" class="p-button-text"></button>
+			</p-card>
+		</ng-template>
+	</p-timeline>
+</p-card> -->
+<p-card header="Timeline Facture" >
+
+<p-timeline [value]="timelinebyidfacture">
+  <ng-template pTemplate="content" let-event>
+      <small class="p-text-secondary">{{event.dateCreation |  date: 'dd/MM/yyyy'}}</small>
+
+  </ng-template>
+
+  <ng-template pTemplate="opposite" let-event>
+      {{event.etats}}
+      <small class="p-text-secondary">{{event.dateCreation | date:'hh:mm a'}}</small>
+
+  </ng-template>
+</p-timeline>
+</p-card>
+
+
+

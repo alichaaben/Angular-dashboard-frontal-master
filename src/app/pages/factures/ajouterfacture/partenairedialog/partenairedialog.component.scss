@@ -1,0 +1,27 @@
+.my-right {
+  text-align: right;
+  width: 100%;
+}
+.btn-actif{
+  width: 50px;
+  height: 30px;
+  background-color: rgb(77, 202, 5);
+  border-radius: 30px;
+  color: white;
+}
+.btn-inactif{
+  width: 60px;
+  height: 30px;
+  background-color:rgb(250, 58, 58);
+  border-radius: 30px;
+  color: white;
+}
+
+
+
+.buttonPar {
+  text-align: center;
+    font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}

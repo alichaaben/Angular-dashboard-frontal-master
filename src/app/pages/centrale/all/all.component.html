@@ -1,0 +1,22 @@
+<div class="bcca-breadcrumb">
+  <div class="bcca-breadcrumb-item">Envoi des SMS<i class="fa fa-pencil"></i></div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/dashboard']" >Home</a>  </div>
+</div>
+<nb-card>
+  <nb-card-header> <h5>Smsing et PUSH notifications</h5></nb-card-header>
+
+  <hr />
+  <nb-card-body>
+    <ngx-search
+      (groupFilters)="updateFilters($event)"
+      (autoSearch)="updateSearchText($event)"
+    ></ngx-search>
+
+    <br />
+
+    <ngx-smsing
+      [groupFilters]="filters"
+      [searchByKeyword]="searchText"
+    ></ngx-smsing>
+  </nb-card-body>
+</nb-card>

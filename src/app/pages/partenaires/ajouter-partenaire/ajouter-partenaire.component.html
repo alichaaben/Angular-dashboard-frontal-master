@@ -1,0 +1,951 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<div class="bcca-breadcrumb">
+  <div class="bcca-breadcrumb-item">Ajouter nouveau partenaire <i class="fa fa-pencil"></i></div>
+  <div class="bcca-breadcrumb-item"> <a [routerLink]="['/pages/partenaires/list-partenaires']" >List des partenaires</a> </div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/dashboard']" >Home</a>  </div>
+</div>
+
+<nb-card nbSpinnerStatus="primary">
+  <nb-card-header>
+    <div>
+      <div class="col-md-6">
+        <span style="font-size: 25px"> Ajouter un nouveau partenaire </span>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="modal-body" style="margin-left: 25px">
+      <div class="row-fluid">
+        <button
+          type="button"
+          uncheckable
+          class="info"
+          [disabled]="false"
+          ng-click="step(0)"
+          (click)="step1()"
+        >
+          Informations Générales
+        </button>
+        <hr class="horizontalInfo" />
+        <button
+          type="button"
+          uncheckable
+          class="info"
+          [disabled]="false"
+          ng-click="selected(2)"
+          (click)="step2()"
+        >
+          Informations résponsable<br />
+        </button>
+        <hr class="horizontalInfo" />
+        <button
+          type="button"
+          uncheckable
+          class="info"
+          [disabled]="step < 3"
+          ng-click="selected(4)"
+        >
+          Autres informations<br />
+        </button>
+        <hr class="horizontalInfo" />
+        <button
+          type="button"
+          uncheckable
+          class="info"
+          [disabled]="step < 4"
+          ng-click="selected(6)"
+        >
+          Points de vente<br />
+        </button>
+        <hr class="horizontalInfo" />
+        <button
+          type="button"
+          uncheckable
+          class="info"
+          [disabled]="step != 5"
+          ng-click="selected(6)"
+        >
+          Localisation partenaire<br />
+        </button>
+      </div>
+    </div>
+    <div class="modal-body" style="margin-left: 25px">
+      <div style="margin-left: 20px" class="row-fluid">
+        <button
+          type="button"
+          uncheckable
+          class="btn btn-xl"
+          [disabled]="false"
+          ng-click="step(0)"
+        >
+          1
+        </button>
+        <hr class="horizontal" />
+        <button
+          type="button"
+          uncheckable
+          class="btn btn-xl"
+          [disabled]="step < 2"
+          ng-click="selected(2)"
+        >
+          2<br />
+        </button>
+        <hr class="horizontal" />
+        <button
+          type="button"
+          uncheckable
+          class="btn btn-xl"
+          [disabled]="step < 3"
+          ng-click="selected(4)"
+        >
+          3<br />
+        </button>
+        <hr class="horizontal" />
+        <button
+          type="button"
+          uncheckable
+          class="btn btn-xl"
+          [disabled]="step < 4"
+          ng-click="selected(6)"
+        >
+          4<br />
+        </button>
+        <hr class="horizontal" />
+        <button
+          type="button"
+          uncheckable
+          class="btn btn-xl"
+          [disabled]="step != 5"
+          ng-click="selected(6)"
+        >
+          5<br />
+        </button>
+      </div>
+    </div>
+
+    <br />
+    <form id="myForm" (ngSubmit)="submit()" [formGroup]="multistep">
+      <div>
+        <div *ngIf="step == 1" formGroupName="p1">
+          <p-fieldset legend="Informations générales">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Raison sociale<span style="color: red">*</span></label
+                  ><input
+                    nbInput
+                    style="font-size: 18px; font-weight: bold"
+                    formControlName="raisonSociale"
+                    fullWidth
+                    placeholder="Rasion sociale"
+                    type="text"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid': submitted && p1.raisonSociale.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p1.raisonSociale.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p1.raisonSociale.errors.required">
+                      Raison Sociale est obligatoire !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Abbreviation<span style="color: red">*</span></label
+                  ><input
+                    formControlName="abbreviation"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Abbreviation"
+                    type="text"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p1.abbreviation.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p1.abbreviation.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p1.abbreviation.errors.required">
+                      Abbreviation est obligatoire !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Adresse<span style="color: red">*</span></label
+                  ><input
+                    formControlName="adresse"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Adresse"
+                    type="text"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p1.adresse.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p1.adresse.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p1.adresse.errors.required">
+                      Adresse est obligatoire !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Numero de téléphone<span style="color: red">*</span></label
+                  ><input
+                    formControlName="nTel"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Numero de téléphone"
+                    type="text"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p1.nTel.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p1.nTel.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p1.nTel.errors.required">
+                      Numero de téléphone est obligatoire !
+                    </div>
+                    <div *ngIf="p1.nTel.errors.minlength">
+                      Numero de téléphone contient au moins 8 chiffres !
+                    </div>
+                    <div *ngIf="p1.nTel.errors.pattern">
+                      Numero de téléphone contient que des chiffres !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Matricule fiscale<span style="color: red">*</span></label
+                  ><input
+                    formControlName="matriculeFiscale"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Matricule fiscale"
+                    type="text"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p1.matriculeFiscale.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p1.matriculeFiscale.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p1.matriculeFiscale.errors.required">
+                      Matricule fiscale est obligatoire !
+                    </div>
+                    <div *ngIf="p1.matriculeFiscale.errors.minlength">
+                      Matricule fiscale est invalide !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Site web<span style="color: red">*</span></label
+                  ><input
+                    formControlName="siteWeb"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Site web "
+                    type="text"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p1.siteWeb.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p1.siteWeb.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p1.siteWeb.errors.required">
+                      Site web est obligatoire !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Logo<span style="color: red">*</span></label
+                  ><input
+                    formControlName="logo"
+                    #fileUploadLogo
+                    id="fileUploadLogo"
+                    accept="image/*"
+                    fullWidth
+                    maxlength="100"
+                    onchange="document.getElementById('logo').src = window.URL.createObjectURL(this.files[0])"
+                    nbInput
+                    placeholder="Logo"
+                    type="file"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    (change)="onFileSelectedLogo($event)"
+                    [ngClass]="{
+                      'is-invalid': submitted && p1.logo.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p1.logo.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p1.logo.errors.required">
+                      Logo est obligatoire !
+                    </div>
+                  </div>
+                  <img
+                    id="logo"
+                    alt="Logo pas encore importé"
+                    width="100"
+                    height="100"
+                  />
+                </div>
+              </div>
+            </div>
+          </p-fieldset>
+        </div>
+      </div>
+
+      <div>
+        <div *ngIf="step == 2" formGroupName="p2">
+          <p-fieldset legend="Informations résponsable">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Nom responsable<span style="color: red">*</span></label
+                  ><input
+                    formControlName="nomResponsable"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Nom responsable"
+                    type="text"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p2.nomResponsable.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p2.nomResponsable.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p2.nomResponsable.errors.required">
+                      Nom responsable est obligatoire !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Prénom responsable<span style="color: red">*</span></label
+                  ><input
+                    formControlName="prenomResponsable"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Prénom responsable"
+                    type="text"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p2.prenomResponsable.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p2.prenomResponsable.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p2.prenomResponsable.errors.required">
+                      Prénom responsable est obligatoire !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Numéro téléphone responsable<span style="color: red"
+                      >*</span
+                    ></label
+                  ><input
+                    formControlName="telResponsable"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Numéro téléphone responsable"
+                    type="text"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p2.telResponsable.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p2.telResponsable.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p2.telResponsable.errors.required">
+                      Numéro téléphone responsable est obligatoire !
+                    </div>
+                    <div *ngIf="p2.telResponsable.errors.minlength">
+                      Numero de téléphone contient au moins 8 chiffres ! !
+                    </div>
+                    <div *ngIf="p2.telResponsable.errors.pattern">
+                      Numero de téléphone contient que des chiffres !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Email responsable<span style="color: red">*</span></label
+                  ><input
+                    formControlName="emailResponsable"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Email responsable"
+                    type="email"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p2.emailResponsable.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p2.emailResponsable.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p2.emailResponsable.errors.required">
+                      Email responsable est obligatoire !
+                    </div>
+                    <div *ngIf="p2.emailResponsable.errors.email">
+                      Email responsable n'est pas valide !
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-fieldset>
+        </div>
+      </div>
+
+      <div>
+        <div *ngIf="step == 3" formGroupName="p3">
+          <p-fieldset legend="Autres informations">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Devise<span style="color: red">*</span></label
+                  ><input
+                    formControlName="devise"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Devise"
+                    type="text"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p3.devise.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p3.devise.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p3.devise.errors.required">
+                      Devise est obligatoire !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Sender Key<span style="color: red">*</span></label
+                  ><input
+                    formControlName="senderKey"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Sender Key"
+                    type="text"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p3.senderKey.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p3.senderKey.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p3.senderKey.errors.required">
+                      Sender key est obligatoire !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Lien d'application Android<span style="color: red"
+                      >*</span
+                    ></label
+                  ><input
+                    formControlName="linkAppAndroid"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Lien d'application Android"
+                    type="text"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p3.linkAppAndroid.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p3.linkAppAndroid.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p3.linkAppAndroid.required">
+                      Lien d'application Android est obligatoire !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Lien d'application Android<span style="color: red"
+                      >*</span
+                    ></label
+                  ><input
+                    formControlName="linkAppiOs"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Lien d'application IOS"
+                    type="text"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p3.linkAppiOs.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p3.linkAppiOs.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p3.linkAppiOs.required">
+                      Lien d'application IOS est obligatoire !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Image panoramique<span style="color: red">*</span></label
+                  ><input
+                    formControlName="imagePanormaic"
+                    fullWidth
+                    maxlength="100"
+                    onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])"
+                    nbInput
+                    placeholder="Image panoramique"
+                    type="file"
+                    class="form-control"
+                    #fileUploadImagePanoramique
+                    id="fileUploadImagePanoramique"
+                    accept="image/*"
+                    (change)="onFileSelectedImagePanoramique($event)"
+                    style="font-size: 18px; font-weight: bold"
+                    [ngClass]="{
+                      'is-invalid': submitted && p3.imagePanormaic.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p3.imagePanormaic.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p3.imagePanormaic.errors.required">
+                      Image panoramique est obligatoire !
+                    </div>
+                  </div>
+
+                  <img
+                    id="blah"
+                    alt="image panoramique pas encore importé"
+                    width="100"
+                    height="100"
+                  />
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Icone d'application<span style="color: red">*</span></label
+                  ><input
+                    formControlName="iconApp"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Icone d'application"
+                    type="file"
+                    onchange="document.getElementById('bl').src = window.URL.createObjectURL(this.files[0])"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    #fileUploadIcon
+                    id="fileUploadIcon"
+                    accept="image/*"
+                    (change)="onFileSelectedIcon($event)"
+                    [ngClass]="{
+                      'is-invalid': submitted && p3.iconApp.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p3.iconApp.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p3.iconApp.errors.required">
+                      Icone d'application est obligatoire !
+                    </div>
+                  </div>
+                  <img
+                    id="bl"
+                    alt="Icone d'application pas encore importé"
+                    width="100"
+                    height="100"
+                  />
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Couluer 1<span style="color: red">*</span></label
+                  ><input
+                    formControlName="couleur1"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Couleur 1"
+                    type="color"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [value]="color"
+                    [ngClass]="{
+                      'is-invalid': submitted && p3.couleur1.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p3.couleur1.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p3.couleur1.errors.required">
+                      Couleur 1 est obligatoire !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="label"
+                    >Couluer 2<span style="color: red">*</span></label
+                  ><input
+                    formControlName="couleur2"
+                    fullWidth
+                    maxlength="100"
+                    nbInput
+                    placeholder="Couleur 2"
+                    type="color"
+                    class="form-control"
+                    style="font-size: 18px; font-weight: bold"
+                    [value]="color"
+                    [ngClass]="{
+                      'is-invalid': submitted && p3.couleur2.errors
+                    }"
+                  />
+                  <div
+                    id="ngIf"
+                    *ngIf="submitted && p3.couleur2.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="p3.couleur2.errors.required">
+                      Couleur 2 est obligatoire !
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-fieldset>
+        </div>
+      </div>
+
+      <div>
+        <div *ngIf="step == 4" formGroupName="p4">
+          <p-fieldset legend="Les points de vente">
+            <div>
+              <div>
+                <button
+                  style="
+                    float: right;
+                    margin-bottom: 30px;
+                    border-color: white;
+                    background: #ffaa00;
+                    color: white;
+                  "
+                  type="button"
+                  (click)="showPointVentes()"
+                  nbButton
+                  status="success"
+                  class="btn btn-warning mx-2"
+                >
+                  Ajouter
+                </button>
+              </div>
+
+              <div class="ui-table-wrapper">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Désignation</th>
+                      <th scope="col">Adresse</th>
+                      <th scope="col">Coordonnées X</th>
+                      <th scope="col">Coordonnées y</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <div *ngIf="pointsDeVentesFinales.length === 0">
+                      <td
+                        style="
+                          font-size: 20px;
+                          display: flex;
+                          justify-content: center;
+                        "
+                      >
+                        <!-- Aucun point de vente a été ajouté ! -->
+                      </td>
+                    </div>
+                    <tr *ngFor="let pointVente of pointsDeVentesFinales">
+                      <th scope="row">
+                        {{ pointsDeVentesFinales.indexOf(pointVente) + 1 }}
+                      </th>
+                      <td>{{ pointVente.designation }}</td>
+                      <td>{{ pointVente.adresse }}</td>
+                      <td>{{ pointVente.coordX }}</td>
+                      <td>{{ pointVente.coordY }}</td>
+                      <td>
+                        <button
+                          pButton
+                          type="button"
+                          label="supprimer"
+                          class="p-button-danger"
+                          (click)="removeOnePointVente(pointVente)"
+                        ></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <br />
+            </div>
+          </p-fieldset>
+        </div>
+      </div>
+
+      <div>
+        <div *ngIf="step == 5" formGroupName="p5">
+          <p-fieldset legend="Localisation partenaire">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <div style="float: left">
+                  <button
+                    nbButton
+                    type="button"
+                    (click)="show()"
+                    class="btn btn-warning mx-2"
+                    status="warning"
+                  >
+                    Marquer la localisation
+                  </button>
+                  <!-- <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="label"
+                          >Latitude<span style="color: red">*</span></label
+                        ><input
+                          fullWidth
+                          maxlength="100"
+                          nbInput
+                          placeholder=" Latitude"
+                          type="number"
+                          class="form-control"
+                          style="font-size: 18px; font-weight: bold"
+                          value="LatLang[0]"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="label"
+                          >Langitude<span style="color: red">*</span></label
+                        ><input
+                          fullWidth
+                          maxlength="100"
+                          nbInput
+                          placeholder=" Langitude"
+                          type="number"
+                          class="form-control"
+                          style="font-size: 18px; font-weight: bold"
+                          value="LatLang[1]"
+                        />
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <br />
+            </div>
+          </p-fieldset>
+        </div>
+
+        <button
+          nbButton
+          style="float: left; border-color: white; margin-top: 15px"
+          type="submit"
+          status="danger"
+          *ngIf="step != 1"
+          class="btn btn-danger mx-2"
+          (click)="previous()"
+        >
+          Précédent
+        </button>
+        <button
+          nbButton
+          style="float: left; border-color: white; margin-top: 15px"
+          type="submit"
+          status="danger"
+          *ngIf="step == 1"
+          class="btn btn-danger mx-2"
+          (click)="annuler()"
+        >
+          Annuler
+        </button>
+
+        <button
+          nbButton
+          style="float: right; margin-top: 15px"
+          (click)="suivant()"
+          *ngIf="step != 5"
+          [disabled]="pvFalse"
+          class="btn btn-primary mx-2"
+        >
+          Suivant
+        </button>
+
+        <button
+          nbButton
+          style="
+            float: right;
+            border-color: white;
+            margin-top: 15px;
+            background: #79008e;
+          "
+          type="submit"
+          status="success"
+          class="btn btn-primary mx-2"
+          [disabled]="LatLang == null"
+          *ngIf="step == 5"
+        >
+          ENREGISTRER
+        </button>
+      </div>
+
+      <br />
+    </form>
+  </nb-card-body>
+</nb-card>

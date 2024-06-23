@@ -1,0 +1,114 @@
+<nb-card>
+  <nb-card-header>
+    <h5>Centrale générale du magasin</h5>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row" style="margin-bottom: 40px">
+      <div class="col-sm-6">
+        <label class="label">Produit<span style="color: red">*</span></label>
+        <br />
+        <p-dropdown
+          placeholder="&nbsp; Veuillez choisir un produit"
+          autoWidth="false"
+          [style]="{ width: '100%', 'font-weight': 'bold' }"
+          [required]="true"
+          [filter]="true"
+          filterPlaceholder="&nbsp;Rechercher"
+        ></p-dropdown>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <label class="label">Prix d'achat :</label>
+      </div>
+      <div class="col-sm-6">
+        <label class="label">Prix de vente :</label>
+      </div>
+      <div class="col-sm-6" style="margin-top: 40px">
+        <h6 class="label">Etat de stock :</h6>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4" style="margin-top: 40px">
+        <h6 class="label">Valorisation du stock :</h6>
+      </div>
+      <div class="col-md-4" style="margin-top: 40px">
+        <h6 class="label">
+          Entrées :
+          <h6 style="margin-top: 20px">4000 dt</h6>
+        </h6>
+      </div>
+      <div class="col-md-4" style="margin-top: 40px">
+        <h6 class="label">
+          Sorties :
+          <h6 style="margin-top: 20px">6000 dt</h6>
+        </h6>
+      </div>
+      <div class="col-sm-6" style="margin-top: 40px">
+        <h6 class="label">Mouvement de stock et valorisation</h6>
+        <h6 style="margin-left: 40px">
+          du &nbsp;
+          <p-calendar placeholder="Date début" showIcon="true"></p-calendar> au
+          &nbsp;<p-calendar placeholder="Date fin" showIcon="true"></p-calendar>
+        </h6>
+        <br />
+      </div>
+    </div>
+    <button
+      nbButton
+      style="
+        float: right;
+        border-color: white;
+        margin-top: 15px;
+        background: #79008e;
+      "
+      type="submit"
+      status="success"
+      class="btn btn-primary mx-2"
+    >
+      Chercher
+    </button>
+  </nb-card-body>
+</nb-card>
+<!-- <div id="bg">
+  <div class="container-fluid">
+    <div class="container col-md-3" style="text-align: center">
+
+      
+      <h1 style="color: rgb(230, 230, 230)">Connectez vous!</h1>
+      <div class="mb-3">
+        <label
+          for="Username"
+          class="form-label"
+          style="color: rgb(229, 235, 227)"
+        >
+          Username
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="Username"
+          placeholder="Entrez votre numéro"
+        />
+      </div>
+      <div class="mb-3">
+        <label
+          for="Password"
+          class="form-label"
+          style="color: rgb(217, 222, 215)"
+        >
+          Password</label
+        >
+        <input
+          type="password"
+          class="form-control"
+          id="Password"
+          placeholder="Entrez votre password.."
+        />
+      </div>
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <button class="btn btn-primary" type="button">Login</button>
+      </div>
+    </div>
+  </div>
+</div> -->

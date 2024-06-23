@@ -1,0 +1,127 @@
+<div class="container ">
+  <ol class="breadcrumb shadow-lg bg-white">
+
+      <li class="breadcrumb-item ">  <a  routerLink="/pages" class="breadcrumbs__link"> <i class="pi pi-home"></i> Accueil</a></li>
+      <li class="breadcrumb-item "> <a routerLink="/pages/facture/listfactures" class="breadcrumbs__link breadcrumbs__link--active">List des factures</a></li>
+  </ol>
+</div>
+
+
+
+
+<br>
+
+<p-fieldset legend="Factures">
+  <div class="card">
+
+    <!-- list des factues -->
+    <p-table
+    styleClass="p-datatable-gridlines"
+    #sd
+    responsiveLayout="scroll"
+    selectionMode="single"
+    currentPageReportTemplate="Affichage de {first} a {last} des factures" styleClass="p-datatable-customers p-datatable-gridlines"
+    totalRecords="{{totalRecords}}"
+      [paginator]="true"
+      [rows]="5"
+
+      [loading]="loading"
+      (syLoad)="loadFacture()"
+
+      [showCurrentPageReport]="true"
+      responsiveLayout="scroll"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [value]="listfacture"
+      [globalFilterFields]="['numFacture','name','dateCreation','typeReglement','statusFacture']" >
+
+      <ng-template pTemplate="summary">
+        Total factures :   {{ listfacture?.length }}
+      </ng-template>
+      <ng-template pTemplate="caption">
+<button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button>
+<button type="button" pButton pRipple icon="pi pi-eye-slash" routerLink="/pages/facture/listfacturesinarchive" class="p-button-info mr-2"  pTooltip="Archive" tooltipPosition="bottom"></button>
+
+        <div class="flex">
+
+          <button pButton pRipple type="button" label="Ajouter une facture " (click)="toggle()" class="p-button-rounded" style="margin-left:920px"></button>
+
+            <span class="p-input-icon-right ml-auto">
+                <input pInputText type="text" (input)="sd.filterGlobal($event.target.value, 'contains')" placeholder=" chercher" />
+
+                <i class="pi pi-search"></i>
+
+            </span>
+
+        </div>
+        </ng-template>
+
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="numFacture"><p-columnFilter type="text" field="numFacture" display="nom"></p-columnFilter>Numéro de Facture <p-sortIcon field="numFacture"></p-sortIcon></th>
+          <th pSortableColumn="dateCreation"><p-columnFilter type="text" field="dateCreation" display="dateCreation"></p-columnFilter> Date de création  <p-sortIcon field="dateCreation"></p-sortIcon></th>
+
+          <th pSortableColumn="name"><p-columnFilter type="text" field="name" display="name"></p-columnFilter>Partenaire <p-sortIcon field="name"></p-sortIcon></th>
+
+          <th pSortableColumn="statusFacture"><p-columnFilter type="text" field="statusFacture" display="statusFacture"></p-columnFilter>Statut <p-sortIcon field="statusFacture"></p-sortIcon></th>
+          <th pSortableColumn="typeReglement"><p-columnFilter type="text" field="typeReglement" display="typeReglement"></p-columnFilter>Reglement <p-sortIcon field="typeReglement"></p-sortIcon></th>
+          <th pSortableColumn="typeReglement"><p-columnFilter type="text" field="typeReglement" display="typeReglement"></p-columnFilter>Montant à Payer(Dt) <p-sortIcon field="typeReglement"></p-sortIcon></th>
+
+
+          <th>Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-facture>
+        <!-- <tr *ngFor="let factur of listfacture"> -->
+        <tr>
+          <td>{{ facture.numFacture }}</td>
+          <td>{{ facture.dateCreation | date: "dd/MM/yyyy" }}</td>
+          <td>{{facture.name}}</td>
+
+
+          <td> {{ facture.statusFacture }} </td>
+          
+          <td>
+            {{facture.typeReglement }}
+          </td>
+          <td>
+            {{facture.totalpricetva }}
+          </td>
+        
+          <td>
+            <a [routerLink]="['/pages/facture/ModifierFacture', facture.idFacture]">
+            <button pButton  pRipple type="button" icon="pi pi-pencil" class="p-button-rounded" ></button>
+          </a>
+
+
+
+          <a [routerLink]="['/pages/facture/listfactures/detailFacture', facture.idFacture]">
+            <button pButton pRipple type="button"                icon="pi pi-eye"
+            class="p-button-rounded p-button-warning mr-2"></button>
+          </a>
+
+
+          <a [routerLink]="['/pages/facture/listfactures/timelinefacture', facture.idFacture]">
+            <button pButton pRipple type="button"                icon="pi pi-sitemap"
+            class="p-button-rounded p-button-success mr-2"></button>
+          </a>
+
+
+
+            <a *ngIf="facture.typeReglement?.length" [routerLink]="['/pages/facture/listfactures/facturefile', facture.idFacture]">
+              
+              <button pButton pRipple type="button" icon="pi pi-file-o" class="p-button-rounded p-button-secondary "></button>
+            </a>
+           
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft"> </ng-template>
+      <ng-template pTemplate="paginatorright">
+      </ng-template>
+
+    </p-table>
+  </div>
+</p-fieldset>
+
+

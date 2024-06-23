@@ -1,0 +1,136 @@
+<p-toast></p-toast>
+<p-dialog
+  [baseZIndex]="10000"
+  [modal]="true"
+  [(visible)]="display"
+  header="Reset password"
+  [transitionOptions]="'0ms'"
+  [style]="{
+    width: '30vw',
+    height: '20vw',
+    'font-size': '10px',
+    'font-weight': 'bold',
+    'font-family': 'italic'
+  }"
+>
+  <label class="label"> Adresse email<span style="color: red">*</span></label>
+  <input type="text" nbInput fullWidth ngModel [(ngModel)]="email"  />
+  <div style="margin-top: 40px; text-align: center">
+    <button pButton label="Envoyer" (click)="envoyerNewPassword()"></button>
+  </div>
+</p-dialog>
+<!-- <div class="wrapper fadeInDown">
+    <div id="formContent">
+     
+      <div class="fadeIn first">
+        <h3 class="col-5 mx-auto">SE CONNECTER</h3>
+
+        <form name="form" #auth="ngForm" (ngSubmit)="authenticat()">
+          <input
+            type="text"
+            id="login"
+            class="fadeIn second"
+            name="login"
+            placeholder="login (First Name)"
+            ngModel
+            required
+            #fn="ngModel"
+            [(ngModel)]="form.username"
+          />
+          <a class="alert alert-danger" *ngIf="fn.invalid && fn.touched">
+            Username is a Required Field !
+          </a>
+
+          <input
+            type="password"
+            id="password"
+            class="fadeIn third"
+            name="password"
+            placeholder="Password"
+            ngModel
+            required
+            #p="ngModel"
+            [(ngModel)]="form.password"
+          />
+
+          <a class="alert alert-danger" *ngIf="p.invalid && p.touched">
+            Password is a Required Field !
+          </a>
+
+          <input
+            href="client"
+            type="submit"
+            [disabled]="auth.invalid"
+            class="fadeIn fourth"
+            value="Log In"
+            (click)="authenticat()"
+          />
+        </form>
+
+        <div class="alert alert-primary">{{ msg }}</div>
+
+        <div id="formFooter">
+          <a
+            class="underlineHover"
+            [routerLink]="['/auth/register']"
+            routerLinkActive="router-link-active"
+            >Créer un nouveau compte ?</a
+          >
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+<div class="logind">
+  <form
+    name="form"
+    class="foorm"
+    #auth="ngForm"
+    style="margin-bottom: 3px; margin-right: 20px"
+  >
+    <div id="logins">
+      <div class="p-inputgroup" style="margin-bottom: 2px">
+        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+        <input
+          name="login"
+          type="text"
+          ngModel
+          required
+          #fn="ngModel"
+          [(ngModel)]="form.username"
+          nbInput
+          fullWidth
+          placeholder="login"
+        />
+      </div>
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+        <input
+          type="password"
+          name="password"
+          ngModel
+          required
+          #p="ngModel"
+          [(ngModel)]="form.password"
+          nbInput
+          fullWidth
+          placeholder="mot de passe"
+        />
+      </div>
+      <div>
+        <a
+          (click)="openDialogForgetPassword()"
+          style="color: rgb(78, 106, 245)"
+        >
+          Mot de pass oublié ?</a
+        >
+      </div>
+      <button
+        style="margin-top: 40px; margin-left: 200px"
+        pButton
+        label="login"
+        (click)="authenticat()"
+      ></button>
+    </div>
+  </form>
+</div>

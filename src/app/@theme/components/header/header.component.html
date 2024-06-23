@@ -1,0 +1,148 @@
+<div class="header-container">
+  <div class="logo-container">
+    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+      <nb-icon icon="menu-2-outline"></nb-icon>
+    </a>
+    <a>
+      <img
+        src="pic_trulli.jpg"
+        src="assets/images/twinlab.png"
+        height="60%"
+        width="80%"
+      />
+    </a>
+  </div>
+  <nb-select
+    [selected]="currentTheme"
+    (selectedChange)="changeTheme($event)"
+    status="primary"
+  >
+    <nb-option *ngFor="let theme of themes" [value]="theme.value">
+      {{ theme.name }}</nb-option
+    >
+  </nb-select>
+  <p-toast></p-toast>
+  <p-dialog
+    [(visible)]="displayBasic"
+    [baseZIndex]="10000"
+    [position]="'top-right'"
+    [style]="{
+      width: '30vw',
+      height: '30vw',
+      'font-size': '10px',
+      'font-weight': 'bold',
+      'font-family': 'italic'
+    }"
+  >
+    <ng-template pTemplate="header">
+      <div >
+        <h5>Notifications de paiement </h5>
+      </div>
+    </ng-template>
+    <div
+      style="background-color: rgb(252, 249, 245); margin-bottom: 2px"
+      *ngFor="let n of notifications"
+    >
+    <img class="pay-icon" src="../../../../assets/images/dollar.png" alt="pay-icon" >
+      <h6 style="margin-bottom: 1px">
+        {{ n.raisonSociale }} <span style="color: red">{{ n.body }}</span>
+      </h6>
+
+      <p style="float: right">{{ n.dateCreation | date: "dd-MM-yyyy" }}</p>
+      <button
+        style="height: 30px"
+        title="marquer comme lue"
+        class="btn btn-primary"
+        (click)="disbaleNotif(n.idNotification)"
+      >
+        marquer comme lue
+      </button>
+    </div>
+    <div></div>
+
+    <ng-template pTemplate="footer">
+      <div>
+        <button
+          style="float: left; width: 480px; background-color: #79008e"
+          class="btn btn-primary"
+          (click)="afficherToutesNotifications()"
+        >
+          Afficher toutes les notifications
+        </button>
+      </div>
+    </ng-template>
+  </p-dialog>
+
+  <p-dialog
+    header="Notifications Factures"
+    [(visible)]="NotifFcturedialog"
+    [style]="{
+      width: '33vw',
+      height: '30vw',
+      'font-size': '10px',
+      'font-weight': 'bold',
+      'font-family': 'italic'
+    }"
+    [baseZIndex]="10000"
+    [position]="'top-right'"
+  >
+    <div
+      style="background-color: rgb(236, 236, 236); margin-bottom: 2px"
+      *ngFor="let f of FacureNotifications"
+    >
+      <a (click)="navigatefacturedetail(f.idNotification)">
+        <div class="row">
+          <div class="col-md-2">
+            <img src="assets/images/bill.png" alt="Trulli" id="billpng" />
+          </div>
+          <div class="col-md2">
+            <h6>Facture Numéro : {{ f.numRefFacture }}</h6>
+            <p>{{ f.description }}</p>
+            <p>Partenaire: {{ f.idFacture }}</p>
+            <p>Fin d'abonnement :{{ f.dateCreation | date: "dd/MM/yyyy" }}</p>
+          </div>
+          <div class="col-4"></div>
+        </div>
+      </a>
+    </div>
+    <ng-template pTemplate="footer">
+      <div></div>
+    </ng-template>
+  </p-dialog>
+</div>
+
+<div class="header-container">
+  <nb-actions size="small">
+    <nb-action
+      size="small"
+      class="control-item"
+      icon="inbox-outline"
+      badgePosition="top pull-right"
+      badgeStatus="info"
+      title="NotificationsFacture"
+      badgeText="{{ FacureNotifications?.length }}"
+      (click)="showNotificationsFacture()"
+    >
+    </nb-action>
+
+    <nb-action
+      size="large"
+      class="control-item"
+      icon="calendar-outline"
+      badgePosition="top right"
+      badgeStatus="warning"
+      title="Notifications"
+      badgeText="{{ notifications?.length }}"
+      (click)="showNotifications()"
+    >
+    </nb-action>
+    <nb-action class="control-item" icon="email-outline"></nb-action>
+    <nb-action class="control-item" icon="bell-outline"></nb-action>
+
+    <nb-action class="user-action" *nbIsGranted="['view', 'user']">
+      <div class="cnxUser">
+    <nb-user color="#87CEEB" [nbContextMenu]="userMenu" [name]="user" > </nb-user>
+      </div>
+    </nb-action> 
+  </nb-actions>
+</div>

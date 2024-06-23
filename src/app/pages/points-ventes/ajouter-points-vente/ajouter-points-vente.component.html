@@ -1,0 +1,1032 @@
+<p-toast></p-toast>
+<div class="bcca-breadcrumb">
+  <div class="bcca-breadcrumb-item">Ajouter nouveau point de vente <i class="fa fa-pencil"></i></div>
+  <div class="bcca-breadcrumb-item"> <a [routerLink]="['/pages/points-vente/',monPartenaire?.idPartenaire]" >List des points de vente</a> </div>
+  <div class="bcca-breadcrumb-item"> <a [routerLink]="['/pages/points-vente/list-points-vente']" >List des partenaires</a> </div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/dashboard']" >Home</a>  </div>
+</div>
+<nb-card nbSpinnerStatus="primary">
+  <nb-card-header>
+    <div>
+      <div class="col-md-6">
+        <span style="font-size: 25px"> Ajouter un nouveau point de vente </span>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <!-- <p-dialog
+      header="Title"
+      [(visible)]="display"
+      [closable]="false"
+      [style]="{ width: '70vw' }"
+      [modal]="true"
+    >
+      <form [formGroup]="ModeReglementForm" style="margin-bottom: 30px">
+        <div class="row">
+          <div class="col-sm-6">
+            <label class="label"
+              >Désignation <span style="color: red">*</span></label
+            >
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              placeholder="Désignation"
+              class="form-control"
+              formControlName="designationMR"
+            />
+          </div>
+          <div class="col-sm-6">
+            <label class="label">Code <span style="color: red">*</span></label>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              placeholder="code"
+              class="form-control"
+              formControlName="codeMR"
+            />
+          </div>
+          <div class="col-sm-6">
+            <label class="label"
+              >Couleur <span style="color: red">*</span></label
+            >
+            <input
+              type="color"
+              nbInput
+              fullWidth
+              placeholder="couleur"
+              class="form-control"
+              formControlName="couleur"
+            />
+          </div>
+          <br />
+          <br />
+          <div>
+            <div class="test">
+              <fieldset>
+                <legend>FNum<span style="color: red">*</span></legend>
+
+                <div>
+                  <input
+                    type="radio"
+                    name="FNum"
+                    formControlName="FNum"
+                    [value]="1"
+                  /><label>oui</label>
+                </div>
+
+                <div>
+                  <input
+                    type="radio"
+                    name="FNum"
+                    formControlName="FNum"
+                    [value]="0"
+                  />
+                  <label>non</label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="test">
+              <fieldset>
+                <legend>FFidelite<span style="color: red">*</span></legend>
+
+                <div>
+                  <input
+                    type="radio"
+                    name="FFidelite"
+                    formControlName="FFidelite"
+                    [value]="1"
+                  /><label>oui</label>
+                </div>
+
+                <div>
+                  <input
+                    type="radio"
+                    name="FFidelite"
+                    formControlName="FFidelite"
+                    [value]="0"
+                  />
+                  <label>non</label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="test">
+              <fieldset>
+                <legend>FDate<span style="color: red">*</span></legend>
+
+                <div>
+                  <input
+                    type="radio"
+                    name="FDate"
+                    formControlName="FDate"
+                    [value]="1"
+                  /><label>oui</label>
+                </div>
+
+                <div>
+                  <input
+                    type="radio"
+                    name="FDate"
+                    formControlName="FDate"
+                    [value]="0"
+                  />
+                  <label>non</label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="test">
+              <fieldset>
+                <legend>Activé<span style="color: red">*</span></legend>
+
+                <div>
+                  <input
+                    type="radio"
+                    name="isactif"
+                    formControlName="isactif"
+                    [value]="1"
+                  /><label>oui</label>
+                </div>
+
+                <div>
+                  <input
+                    type="radio"
+                    name="isactif"
+                    formControlName="isactif"
+                    [value]="0"
+                  />
+                  <label>non</label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="test">
+              <fieldset>
+                <legend>Fdefault<span style="color: red">*</span></legend>
+
+                <div>
+                  <input
+                    type="radio"
+                    name="fdefault"
+                    formControlName="fdefault"
+                    [value]="1"
+                  /><label>oui</label>
+                </div>
+
+                <div>
+                  <input
+                    type="radio"
+                    name="fdefault"
+                    formControlName="fdefault"
+                    [value]="0"
+                  />
+                  <label>non</label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="test">
+              <fieldset>
+                <legend>Validation<span style="color: red">*</span></legend>
+
+                <div>
+                  <input
+                    type="radio"
+                    name="FValidation"
+                    formControlName="FValidation"
+                    [value]="1"
+                  /><label>oui</label>
+                </div>
+
+                <div>
+                  <input
+                    type="radio"
+                    name="FValidation"
+                    formControlName="FValidation"
+                    [value]="0"
+                  />
+                  <label>non</label>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </form>
+      <button
+        nbButton
+        style="float: left; border-color: white; margin-top: 15px"
+        type="submit"
+        status="danger"
+        class="btn btn-danger mx-2"
+        (click)="anuulerAjoutModeReglement()"
+      >
+        annuler
+      </button>
+      <button
+      nbButton
+      style="
+        float: right;
+        border-color: white;
+        margin-top: 15px;
+        background: #79008e;
+      "
+      class="btn btn-primary mx-2"
+        (click)="ajouterModeReglement()"
+      >ajouter</button>
+    </p-dialog> -->
+    <br />
+    <form [formGroup]="pointDeVente" (ngSubmit)="onsubmit()">
+      <div class="test">
+        <div class="form-group">
+          <label>Désignation<span style="color: red">*</span></label>
+          <input
+            nbInput
+            fullWidth
+            class="form-control"
+            type="text"
+            name="designation"
+            formControlName="designation"
+            [ngClass]="{
+              'is-invalid': submitted && pointDeVente.get('designation').errors
+            }"
+          />
+          <div
+            id="ngIf"
+            *ngIf="submitted && pointDeVente.get('designation').errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="pointDeVente.get('designation').errors.required">
+              Désignation est obligatoire !
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test">
+        <div class="form-group">
+          <label>Adresse<span style="color: red">*</span></label>
+          <input
+            nbInput
+            fullWidth
+            class="form-control"
+            type="text"
+            name="adresse"
+            formControlName="adresse"
+            [ngClass]="{
+              'is-invalid': submitted && pointDeVente.get('adresse').errors
+            }"
+          />
+          <div
+            *ngIf="submitted && pointDeVente.get('adresse').errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="pointDeVente.get('adresse').errors['required']">
+              Adresse est obligatoire !
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test">
+        <div class="form-group">
+          <label>Reservation<span style="color: red">*</span></label>
+          <input
+            nbInput
+            fullWidth
+            class="form-control"
+            type="text"
+            name="fReservation"
+            formControlName="fReservation"
+            [ngClass]="{
+              'is-invalid': submitted && pointDeVente.get('fReservation').errors
+            }"
+          />
+          <div
+            *ngIf="submitted && pointDeVente.get('fReservation').errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="pointDeVente.get('fReservation').errors['required']">
+              reservation est obligatoire !
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test">
+        <div class="form-group">
+          <label>Entête ticket<span style="color: red"></span></label>
+          <input
+            nbInput
+            fullWidth
+            class="form-control"
+            type="text"
+            name="enteteTicket"
+            formControlName="enteteTicket"
+            [ngClass]="{
+              'is-invalid': submitted && pointDeVente.get('enteteTicket').errors
+            }"
+          />
+          <div
+            *ngIf="submitted && pointDeVente.get('enteteTicket').errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="pointDeVente.get('enteteTicket').errors['required']">
+              Entête ticket est obligatoire !
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test">
+        <div class="form-group">
+          <label>Pied ticket<span style="color: red"></span></label>
+          <input
+            nbInput
+            fullWidth
+            class="form-control"
+            type="text"
+            name="piedTicket"
+            formControlName="piedTicket"
+            [ngClass]="{
+              'is-invalid': submitted && pointDeVente.get('piedTicket').errors
+            }"
+          />
+          <div
+            *ngIf="submitted && pointDeVente.get('piedTicket').errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="pointDeVente.get('piedTicket').errors['required']">
+              Pied de Ticket est obligatoire !
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test">
+        <div class="form-group">
+          <label>Difference autorisé<span style="color: red"></span></label>
+          <input
+            nbInput
+            fullWidth
+            class="form-control"
+            type="text"
+            name="differenceautorise"
+            formControlName="differenceautorise"
+            [ngClass]="{
+              'is-invalid':
+                submitted && pointDeVente.get('differenceautorise').errors
+            }"
+          />
+          <div
+            *ngIf="submitted && pointDeVente.get('differenceautorise').errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="pointDeVente.get('differenceautorise').errors.required">
+              Difference autorise est obligatoire !
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Type de point vente <span style="color: red">*</span></legend>
+
+          <div>
+            <input
+              type="radio"
+              name="typePv"
+              formControlName="typePv"
+              value="Stock central"
+              checked="Stock central"
+            /><label>Stock central</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="typePv"
+              formControlName="typePv"
+              value="Point de vente"
+            /><label>Point de vente</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>
+            Chiffres aprés virgule<span style="color: red">*</span>
+          </legend>
+          <div>
+            <input
+              type="radio"
+              name="Chiffrevirgule"
+              formControlName="Chiffrevirgule"
+              [value]="1"
+            />
+            <label>1</label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              name="Chiffrevirgule"
+              formControlName="Chiffrevirgule"
+              [value]="2"
+            />
+            <label>2</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="Chiffrevirgule"
+              formControlName="Chiffrevirgule"
+              [value]="3"
+            />
+            <label>3</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Imprimante cuisine<span style="color: red">*</span></legend>
+
+          <div>
+            <input
+              type="radio"
+              name="fImprimCuisine"
+              formControlName="fImprimCuisine"
+              [value]="1"
+            /><label>oui</label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              name="fImprimCuisine"
+              formControlName="fImprimCuisine"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Reimpression ticket<span style="color: red">*</span></legend>
+          <div>
+            <input
+              type="radio"
+              name="fReImprim"
+              formControlName="fReImprim"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              name="fReImprim"
+              formControlName="fReImprim"
+              [value]="0"
+            /><label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Partage addition<span style="color: red">*</span></legend>
+
+          <div>
+            <input
+              type="radio"
+              name="fPartageAdition"
+              formControlName="fPartageAdition"
+              [value]="1"
+            /><label>oui</label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              name="fPartageAdition"
+              formControlName="fPartageAdition"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Detail montant<span style="color: red">*</span></legend>
+
+          <div>
+            <input
+              type="radio"
+              name="fDetailMontant"
+              formControlName="fDetailMontant"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              name="fDetailMontant"
+              formControlName="fDetailMontant"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>
+            Affecter employé au service<span style="color: red">*</span>
+          </legend>
+
+          <div>
+            <input
+              type="radio"
+              name="fAffectEmployetoservice"
+              formControlName="fAffectEmployetoservice"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              name="fAffectEmployetoservice"
+              formControlName="fAffectEmployetoservice"
+              [value]="0"
+            /><label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Recharge abonnement<span style="color: red">*</span></legend>
+
+          <div>
+            <input
+              type="radio"
+              name="fAutoriserRecharge"
+              formControlName="fAutoriserRecharge"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              name="fAutoriserRecharge"
+              formControlName="fAutoriserRecharge"
+              [value]="0"
+            /><label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>
+            Suspendre vente on ligne <span style="color: red">*</span>
+          </legend>
+          <div>
+            <input
+              type="radio"
+              name="farretVenteOnline"
+              formControlName="farretVenteOnline"
+              [value]="1"
+            /><label>oui</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="farretVenteOnline"
+              formControlName="farretVenteOnline"
+              [value]="0"
+            /><label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Ecran cuisine<span style="color: red">*</span></legend>
+          <div>
+            <input
+              type="radio"
+              name="fEcranCuisine"
+              formControlName="fEcranCuisine"
+              [value]="1"
+            /><label>oui</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="fEcranCuisine"
+              formControlName="fEcranCuisine"
+              [value]="0"
+            /><label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Application mobile<span style="color: red">*</span></legend>
+          <div>
+            <input
+              type="radio"
+              name="fMobile"
+              formControlName="fMobile"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              name="fMobile"
+              formControlName="fMobile"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Impression catégorie<span style="color: red">*</span></legend>
+          <div>
+            <input
+              type="radio"
+              name="fImpresCateg"
+              formControlName="fImpresCateg"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              name="fImpresCateg"
+              formControlName="fImpresCateg"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>
+            Affichage chiffre d'affaires caisse<span style="color: red">*</span>
+          </legend>
+          <div>
+            <input
+              type="radio"
+              name="fDispCA"
+              formControlName="fDispCA"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="fDispCA"
+              formControlName="fDispCA"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Gestion des tables<span style="color: red">*</span></legend>
+          <div>
+            <input
+              type="radio"
+              name="fGestionTable"
+              formControlName="fGestionTable"
+              [value]="0"
+            />
+            <label>Sans table</label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              name="fGestionTable"
+              formControlName="fGestionTable"
+              [value]="1"
+            />
+            <label>Avec table</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="fGestionTable"
+              formControlName="fGestionTable"
+              [value]="2"
+            />
+            <label>Bippeur</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Photo catégorie<span style="color: red">*</span></legend>
+
+          <div>
+            <input
+              type="radio"
+              name="fPhotoCateg"
+              formControlName="fPhotoCateg"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              name="fPhotoCateg"
+              formControlName="fPhotoCateg"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Clavier virtuel<span style="color: red">*</span></legend>
+          <div>
+            <input
+              type="radio"
+              name="fClavierVirtuel"
+              formControlName="fClavierVirtuel"
+              [value]="0"
+            />
+            <label>oui</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="fClavierVirtuel"
+              formControlName="fClavierVirtuel"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Entête Ticket<span style="color: red">*</span></legend>
+          <div>
+            <input
+              type="radio"
+              name="fEntetePied"
+              formControlName="fEntetePied"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="fEntetePied"
+              formControlName="fEntetePied"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>
+            Imprimer avant paiement<span style="color: red">*</span>
+          </legend>
+          <div>
+            <input
+              type="radio"
+              name="fImprimeAvP"
+              formControlName="fImprimeAvP"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="fImprimeAvP"
+              formControlName="fImprimeAvP"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Contrôle caisse<span style="color: red">*</span></legend>
+          <div>
+            <input
+              type="radio"
+              name="fControlCaisse"
+              formControlName="fControlCaisse"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="fControlCaisse"
+              formControlName="fControlCaisse"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Prix TTC<span style="color: red">*</span></legend>
+          <div>
+            <input
+              type="radio"
+              name="fprixttc"
+              formControlName="fprixttc"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="fprixttc"
+              formControlName="fprixttc"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>Detecter pack<span style="color: red">*</span></legend>
+          <div>
+            <input
+              type="radio"
+              name="fdetectPack"
+              formControlName="fdetectPack"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="fdetectPack"
+              formControlName="fdetectPack"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="test">
+        <fieldset>
+          <legend>
+            Affecter collaborateur<span style="color: red">*</span>
+          </legend>
+          <div>
+            <input
+              type="radio"
+              name="faffectcollab"
+              formControlName="faffectcollab"
+              [value]="1"
+            />
+            <label>oui</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="faffectcollab"
+              formControlName="faffectcollab"
+              [value]="0"
+            />
+            <label>non</label>
+          </div>
+        </fieldset>
+      </div>
+      <!-- <div class="test">
+        <fieldset>
+          <legend>Modes de réglement<span style="color: red">*</span></legend>
+          <button
+            pButton
+            label="ajouter"
+            class="btn btn-success"
+            (click)="showDialog()"
+            style="float: right"
+          ></button>
+        </fieldset>
+      </div>
+      <table class="table" style="width: 50%;">
+        <thead>
+          <tr>
+            <th scope="col">Désination</th>
+            <th scope="col">code</th>
+            <th scope="col">couleur</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of listModeReglement">
+            <td>{{ m.designation }}</td>
+            <td>{{ m.code }}</td>
+            <td>{{ m.couleur }}</td>
+            <td>
+              <button
+                class="btn btn-danger"
+                (click)="supprimerOneModeReglemenet(m)"
+              >
+                supprimer
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="test"></div> -->
+      <div style="margin-top: 50px">
+        <br />
+        <div
+          id="googlemap"
+          style="
+            width: auto;
+            height: 550px;
+            position: relative;
+            overflow: hidden;
+          "
+        ></div>
+      </div>
+      <div>
+        <button
+          nbButton
+          style="float: left; border-color: white; margin-top: 15px"
+          type="submit"
+          status="danger"
+          class="btn btn-danger mx-2"
+          (click)="annuler(idPartenaire)"
+        >
+          Annuler
+        </button>
+        <button
+          nbButton
+          style="
+            float: right;
+            border-color: white;
+            margin-top: 15px;
+            background: #79008e;
+          "
+          class="btn btn-primary mx-2"
+        >
+          Enregistrer
+        </button>
+      </div>
+
+      <br />
+    </form>
+  </nb-card-body>
+</nb-card>

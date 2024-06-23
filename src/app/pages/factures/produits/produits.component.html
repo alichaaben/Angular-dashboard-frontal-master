@@ -1,0 +1,302 @@
+
+
+<p-toast></p-toast>
+<div class="container ">
+  <ol class="breadcrumb shadow-lg bg-white">
+
+      <li class="breadcrumb-item ">  <a  routerLink="/pages" class="breadcrumbs__link"> <i class="pi pi-home"></i> Accueil</a></li>
+      <li class="breadcrumb-item "><a   routerLink="/pages/facture/Produits"  class="breadcrumbs__link breadcrumbs__link--active">Produits </a> </li>
+  </ol>
+</div>
+
+
+  <br>
+<div class="ui-g">
+
+
+
+<p-fieldset legend="Produits Adcaisses">
+
+  <p-confirmDialog header="Confirmación" acceptLabel="Si" rejectLabel="No" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<p-table
+#dt
+[value]="listproduits"
+
+styleClass="p-datatable-gridlines"
+responsiveLayout="scroll"
+selectionMode="single"
+dataKey="idProduit"
+[resetPageOnSort]="false"
+  [paginator]="true"
+  [rows]="5"
+  [rowsPerPageOptions]="[5, 10, 15]"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Affichage de {first} a {last} de Produits" styleClass="p-datatable-customers p-datatable-gridlines"
+  totalRecords="{{totalRecords}}"
+  pageLinkSize="6"
+  [globalFilterFields]="['nomProduit','descriptionProduit','prixProduit','typeAbonnement']"
+
+
+>
+  <ng-template pTemplate="caption">
+    <div class="flex">
+
+      <button pButton pRipple type="button" label="Ajouter un produit " (click)="showsavedialog()" class="p-button-rounded" style="margin-left:920px"></button>
+
+        <span class="p-input-icon-right ml-auto">
+            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder=" chercher" />
+
+            <i class="pi pi-search"></i>
+
+        </span>
+
+    </div>
+    </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="nomProduit"><p-columnFilter type="text" field="nomProduit" display="nom"></p-columnFilter>Nom Produit <p-sortIcon field="nomProduit"></p-sortIcon></th>
+      <th pSortableColumn="descriptionProduit"><p-columnFilter type="text" field="descriptionProduit" display="descriptionProduit"></p-columnFilter> Description Produit <p-sortIcon field="descriptionProduit"></p-sortIcon></th>
+
+      <th pSortableColumn="prixProduit"><p-columnFilter type="text" field="prixProduit" display="prixProduit"></p-columnFilter>Prix Produit <p-sortIcon field="prixProduit"></p-sortIcon></th>
+      <th pSortableColumn="typeAbonnement"><p-columnFilter type="text" field="typeAbonnement" display="typeAbonnement"></p-columnFilter>Type Abonnement<p-sortIcon field="typeAbonnement"></p-sortIcon></th>
+      <th pSortableColumn="codeProduitRef"><p-columnFilter type="text" field="codeProduitRef" display="codeProduitRef"></p-columnFilter>Code<p-sortIcon field="codeProduitRef"></p-sortIcon></th>
+
+    <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-product >
+    <tr>
+      <td class="left">
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input pInputText type="text" [(ngModel)]="product.nomProduit" required>
+        </ng-template>
+        <ng-template pTemplate="output">
+          {{product.nomProduit}}
+        </ng-template>
+
+        </p-cellEditor>
+    </td>
+    <td>
+      {{product.descriptionProduit}}
+    </td>
+    <td>
+      <div >
+        {{product.prixProduit}}
+    </div>
+    </td>
+    <td>
+      {{product.typeAbonnement}}
+     </td>
+
+     <td>
+      {{product.codeProduitRef}}
+
+
+     </td>
+      <td>
+        <a [routerLink]="['/pages/facture/Modifierproduit/', product.idProduit]">
+        <button pButton pRipple type="button"   pRipple
+       icon="pi pi-pencil"  class="p-button-rounded"></button>
+      </a>
+                <button pButton pRipple type="button" icon="pi pi-times" (click)="ArchiverProduitAcaisse(product.idProduit)" class="p-button-rounded p-button-danger"></button>
+    </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    Total produits :   {{ listproduits?.length }}
+  </ng-template>
+</p-table>
+
+</p-fieldset>
+
+
+
+<form  [formGroup]="productform"   >
+
+
+<p-dialog header="Ajouter un Produit ! " styleClass="myClass" [(visible)]="displaysaveDialog"    [responsive]="true" [style]="{width: '750px'}" [modal]="true">
+
+
+
+
+
+  <div class="ui-g ui-fluid">
+    <div class="form-group">
+    <div class="ui-g-8">
+      <label class="label">nom de produit adcaisse <span style="color: red">*</span></label>
+    </div>
+    <input
+        formControlName="nomProduit"
+
+
+        class="form-control"
+        id="nomProduit"
+
+        [class.invalid]="productform.get('nomProduit').invalid &&
+        (productform.get('nomProduit').dirty || productform.get('nomProduit').touched)"
+      />
+      <div class="warn">
+        <ng-container *ngIf="productform.get('nomProduit').invalid &&
+        productform.get('nomProduit').errors &&
+      (productform.get('nomProduit').dirty || productform.get('nomProduit').touched)">
+           <small class="text-danger"
+      *ngIf="productform.get('nomProduit').hasError('required')"
+      >
+      le champ description de la produit est obligatoire.
+            </small>
+            </ng-container>
+        </div>
+
+    </div>
+    <div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+      <label class="label" >Description<span style="color: red">*</span></label>
+
+
+      <input
+        formControlName="descriptionProduit"
+        class="form-control"
+        id="descriptionProduit"
+
+        [class.invalid]="productform.get('descriptionProduit').invalid &&
+        (productform.get('descriptionProduit').dirty || productform.get('descriptionProduit').touched)"
+      />
+      <div class="warn">
+        <ng-container *ngIf="productform.get('descriptionProduit').invalid &&
+        productform.get('descriptionProduit').errors &&
+      (productform.get('descriptionProduit').dirty || productform.get('descriptionProduit').touched)">
+           <small class="text-danger"
+      *ngIf="productform.get('descriptionProduit').hasError('required')"
+      >
+      le champ description de la produit est obligatoire.
+            </small>
+            </ng-container>
+        </div>
+
+
+      </div>
+    </div>
+    <div class="col-md-6">
+
+    <div class="form-group">
+      <label class="label" for="apellido">Code :<span style="color: red">*</span></label>
+      <input
+        formControlName="codeProduitRef"
+        class="form-control"
+        id="codeProduitRef"
+
+        [class.invalid]="productform.get('codeProduitRef').invalid &&
+            (productform.get('codeProduitRef').dirty || productform.get('codeProduitRef').touched)"
+      />
+
+      <div class="warn">
+
+        <ng-container *ngIf="productform.get('codeProduitRef').invalid &&
+        productform.get('codeProduitRef').errors &&
+      (productform.get('codeProduitRef').dirty || productform.get('codeProduitRef').touched)">
+  <small class="text-danger"
+      *ngIf="productform.get('codeProduitRef').hasError('required')"
+      >
+      le champ description de la produit est obligatoire.
+  </small>
+            </ng-container>
+        </div>
+    </div>
+
+
+    </div>
+    <div class="col-md-6">
+
+      <div class="form-group">
+        <label class="label" for="apellido"> Prix:<span style="color: red">*</span></label>
+        <input
+          formControlName="prixProduit"
+          class="form-control"
+          id="prixProduit"
+
+          [class.invalid]="productform.get('prixProduit').invalid &&
+        (productform.get('prixProduit').dirty || productform.get('prixProduit').touched)"
+        />
+
+
+        <div class="warn">
+
+          <ng-container *ngIf="productform.get('prixProduit').invalid &&
+          productform.get('prixProduit').errors &&
+        (productform.get('prixProduit').dirty || productform.get('prixProduit').touched)">
+    <small class="text-danger"
+        *ngIf="productform.get('prixProduit').hasError('required')"
+        >
+        le champ description de la produit est obligatoire.
+    </small>
+              </ng-container>
+          </div>
+      </div>
+
+      </div>
+      <div class="col-md-6">
+
+      <div class="form-group">
+        <label class="label">Type Abonnement<span style="color: red">*</span></label>
+
+        <select class="form-control"  nbInput  formControlName="typeAbonnement"
+        id="typeAbonnement"
+
+        [class.invalid]="productform.get('typeAbonnement').invalid &&
+        (productform.get('typeAbonnement').dirty || productform.get('typeAbonnement').touched)"
+          >
+          <option [ngValue]="undefined" ></option>
+
+          <option *ngFor="let a of Key()">{{a}}</option>
+        </select>
+
+      <div *ngIf="productform.get('typeAbonnement').invalid &&
+      productform.get('typeAbonnement').errors &&
+    (productform.get('typeAbonnement').dirty || productform.get('typeAbonnement').touched)">
+<small class="text-danger"
+    *ngIf="dialogform.get('typeAbonnement').hasError('typeAbonnement')">
+    champ obligatoire.
+</small>
+
+          </div>
+      </div>
+      </div>
+  </div>
+
+
+
+
+  </div>
+
+
+
+  <p-footer>
+
+      <div>
+
+        <button  nbButton
+        status="primary" icon="pi pi-check" [disabled]="!productform.valid "  name="montant" (click)="ajouterProduit()" label="Confirmer"> Confirmer</button>
+
+      </div>
+
+
+  </p-footer>
+
+</p-dialog>
+
+
+
+
+</form>
+
+<!--update product form-->
+
+
+
+
+
+

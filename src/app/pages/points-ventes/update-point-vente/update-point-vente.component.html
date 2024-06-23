@@ -1,0 +1,853 @@
+<p-toast></p-toast>
+<div class="bcca-breadcrumb">
+  <div class="bcca-breadcrumb-item">Modifier point de vente <i class="fa fa-pencil"></i></div>
+  <div class="bcca-breadcrumb-item"> <a [routerLink]="['/pages/points-vente/',monPartenaire?.idPartenaire]" >List des points de vente: {{monPartenaire?.raisonSociale}}</a> </div>
+  <div class="bcca-breadcrumb-item"> <a [routerLink]="['/pages/points-vente/list-points-vente']" >List des partenaires</a> </div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/dashboard']" >Home</a>  </div>
+</div>
+<nb-card nbSpinnerStatus="primary">
+  <nb-card-header>
+    <div>
+      <div class="col-md-6">
+        <span style="font-size: 25px"> Modifier un point vente </span>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="modal-body">
+      <div class="row-fluid">
+        <button
+          type="button"
+          uncheckable
+          class="btn btn-xl"
+          [disabled]="false"
+          ng-click="step(0)"
+        >
+          1
+        </button>
+        <hr class="horizontal" />
+        <button
+          type="button"
+          uncheckable
+          class="btn btn-xl"
+          [disabled]="step < 2"
+          ng-click="selected(2)"
+        >
+          2<br />
+        </button>
+        <hr class="horizontal" />
+        <button
+          type="button"
+          uncheckable
+          class="btn btn-xl"
+          [disabled]="step < 3"
+          ng-click="selected(4)"
+        >
+          3<br />
+        </button>
+        <hr class="horizontal" />
+        <button
+          type="button"
+          uncheckable
+          class="btn btn-xl"
+          [disabled]="step != 4"
+          ng-click="selected(6)"
+        >
+          4<br />
+        </button>
+      </div>
+    </div>
+
+    <br />
+    <form (ngSubmit)="submit()" [formGroup]="editPointVente">
+      <div>
+        <div *ngIf="step == 1" formGroupName="p1">
+          <p-fieldset legend="Informations générales">
+            <div class="row">
+              <div class="col-sm-6">
+                <label class="label"
+                  >Désignation<span style="color: red">*</span></label
+                ><input
+                  formControlName="designation"
+                  fullWidth
+                  maxlength="100"
+                  nbInput
+                  placeholder="Désignation"
+                  type="text"
+                  class="form-control"
+                  style="font-size: 18px; font-weight: bold"
+                  [ngClass]="{
+                    'is-invalid': submitted && p1.designation.errors
+                  }"
+                />
+                <div
+                  id="ngIf"
+                  *ngIf="submitted && p1.designation.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="p1.designation.errors.required">
+                    Désignation est obligatoire !
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label class="label"
+                  >Adresse<span style="color: red">*</span></label
+                ><input
+                  formControlName="adresse"
+                  fullWidth
+                  maxlength="100"
+                  nbInput
+                  placeholder="Adresse"
+                  type="text"
+                  class="form-control"
+                  style="font-size: 18px; font-weight: bold"
+                  [ngClass]="{
+                    'is-invalid': submitted && p1.adresse.errors
+                  }"
+                />
+                <div
+                  id="ngIf"
+                  *ngIf="submitted && p1.adresse.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="p1.adresse.errors.required">
+                    Adresse est obligatoire !
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <label class="label"
+                  >Entete ticket<span style="color: red">*</span></label
+                ><input
+                  formControlName="enteteTicket"
+                  maxlength="100"
+                  nbInput
+                  fullWidth
+                  placeholder="Entete ticket"
+                  type="text"
+                  class="form-control"
+                  style="font-size: 18px; font-weight: bold"
+                  [ngClass]="{
+                    'is-invalid': submitted && p1.enteteTicket.errors
+                  }"
+                />
+                <div
+                  id="ngIf"
+                  *ngIf="submitted && p1.enteteTicket.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="p1.enteteTicket.errors.required">
+                    Entete tikcet est obligatoire !
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <label class="label"
+                  >Pied de ticket<span style="color: red">*</span></label
+                ><input
+                  formControlName="piedTicket"
+                  fullWidth
+                  maxlength="100"
+                  nbInput
+                  placeholder="Pied de ticket"
+                  type="text"
+                  class="form-control"
+                  style="font-size: 18px; font-weight: bold"
+                  [ngClass]="{
+                    'is-invalid': submitted && p1.piedTicket.errors
+                  }"
+                />
+                <div
+                  id="ngIf"
+                  *ngIf="submitted && p1.piedTicket.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="p1.piedTicket.errors.required">
+                    Pied de ticket est obligatoire !
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label class="label"
+                  >Chiffre aprés virgule<span style="color: red">*</span></label
+                ><input
+                  formControlName="chiffrevirgule"
+                  maxlength="100"
+                  nbInput
+                  fullWidth
+                  placeholder="Chiffre aprés virgule"
+                  type="text"
+                  class="form-control"
+                  style="font-size: 18px; font-weight: bold"
+                  [ngClass]="{
+                    'is-invalid': submitted && p1.chiffrevirgule.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && p1.chiffrevirgule.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="p1.chiffrevirgule.errors.required">
+                    Chiffres virgule est obligatoire !
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <label class="label"
+                  >Réservation<span style="color: red">*</span></label
+                ><input
+                  formControlName="fReservation"
+                  maxlength="100"
+                  nbInput
+                  fullWidth
+                  placeholder="Réservation"
+                  type="text"
+                  class="form-control"
+                  style="font-size: 18px; font-weight: bold"
+                  [ngClass]="{
+                    'is-invalid': submitted && p1.fReservation.errors
+                  }"
+                />
+                <div
+                  id="ngIf"
+                  *ngIf="submitted && p1.fReservation.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="p1.fReservation.errors.required">
+                    Réservation est obligatoire !
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <label class="label"
+                  >Type de point de vente<span style="color: red"
+                    >*</span
+                  ></label
+                ><input
+                  formControlName="typePv"
+                  maxlength="100"
+                  nbInput
+                  fullWidth
+                  placeholder="Type de point de vente"
+                  type="text"
+                  class="form-control"
+                  style="font-size: 18px; font-weight: bold"
+                  [ngClass]="{
+                    'is-invalid': submitted && p1.typePv.errors
+                  }"
+                />
+                <div
+                  id="ngIf"
+                  *ngIf="submitted && p1.typePv.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="p1.typePv.errors.required">
+                    Type de point de vente obligatoire !
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-fieldset>
+        </div>
+
+        <div *ngIf="step == 2" formGroupName="p2">
+          <p-fieldset legend="Autres informations">
+            <div class="row">
+            
+
+              <br />
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Gestion des tables</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fGestionTable"
+                      formControlName="fGestionTable"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fGestionTable"
+                      formControlName="fGestionTable"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Photo catégorie</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fPhotoCateg"
+                      formControlName="fPhotoCateg"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fPhotoCateg"
+                      formControlName="fPhotoCateg"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Clavier virtuel</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fClavierVirtuel"
+                      formControlName="fClavierVirtuel"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fClavierVirtuel"
+                      formControlName="fClavierVirtuel"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </p-fieldset>
+        </div>
+
+        <div *ngIf="step == 3" formGroupName="p3">
+          <p-fieldset legend="Autres informations">
+            <div class="row">
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Imprimante cuisine</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fImprimCuisine"
+                      formControlName="fImprimCuisine"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fImprimCuisine"
+                      formControlName="fImprimCuisine"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Reimpression ticket</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fReImprim"
+                      formControlName="fReImprim"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fReImprim"
+                      formControlName="fReImprim"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Partage addition</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fPartageAdition"
+                      formControlName="fPartageAdition"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fPartageAdition"
+                      formControlName="fPartageAdition"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Entete pied</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fEntetePied"
+                      formControlName="fEntetePied"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fEntetePied"
+                      formControlName="fEntetePied"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Detail montant</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fDetailMontant"
+                      formControlName="fDetailMontant"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fDetailMontant"
+                      formControlName="fDetailMontant"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Application mobile</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fMobile"
+                      formControlName="fMobile"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fMobile"
+                      formControlName="fMobile"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </p-fieldset>
+        </div>
+
+        <div *ngIf="step == 4" formGroupName="p4">
+          <p-fieldset legend="Autres informations">
+            <div class="row">
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Affecter employé au service</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fAffectEmployetoservice"
+                      formControlName="fAffectEmployetoservice"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fAffectEmployetoservice"
+                      formControlName="fAffectEmployetoservice"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Recharge abonnement</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fAutoriserRecharge"
+                      formControlName="fAutoriserRecharge"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fAutoriserRecharge"
+                      formControlName="fAutoriserRecharge"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Suspendre vente en ligne</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="farretVenteOnline"
+                      formControlName="farretVenteOnline"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="farretVenteOnline"
+                      formControlName="farretVenteOnline"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Ecran de cuisine</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fEcranCuisine"
+                      formControlName="fEcranCuisine"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fEcranCuisine"
+                      formControlName="fEcranCuisine"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Impression catégorie</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fImpresCateg"
+                      formControlName="fImpresCateg"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fImpresCateg"
+                      formControlName="fImpresCateg"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend> Affichage chiffre d'affaires caisse</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fDispCA"
+                      formControlName="fDispCA"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fDispCA"
+                      formControlName="fDispCA"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </p-fieldset>
+        </div>
+        <div *ngIf="step == 5" formGroupName="p5">
+          <p-fieldset legend="Autres informations 5">
+            <div class="row">
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Imprimer avant paiement</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fImprimeAvP"
+                      formControlName="fImprimeAvP"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fImprimeAvP"
+                      formControlName="fImprimeAvP"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Controle de caisse</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fControlCaisse"
+                      formControlName="fControlCaisse"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fControlCaisse"
+                      formControlName="fControlCaisse"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Difference autorisée</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="differenceautorise"
+                      formControlName="differenceautorise"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="differenceautorise"
+                      formControlName="differenceautorise"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Prix TTC</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fprixttc"
+                      formControlName="fprixttc"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fprixttc"
+                      formControlName="fprixttc"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Affecter collaboration</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="faffectcollab"
+                      formControlName="faffectcollab"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="faffectcollab"
+                      formControlName="faffectcollab"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-sm-6">
+                <fieldset>
+                  <legend>Détection pack</legend>
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fdetectPack"
+                      formControlName="fdetectPack"
+                      [value]="1"
+                    />
+                    <label>oui</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="radio"
+                      name="fdetectPack"
+                      formControlName="fdetectPack"
+                      [value]="0"
+                    />
+                    <label>non</label>
+                  </div>
+                </fieldset>
+              </div>
+              
+            </div>
+          </p-fieldset>
+        </div>
+      </div>
+
+      <div>
+        <button
+          nbButton
+          style="float: left; border-color: white; margin-top: 15px"
+          type="submit"
+          status="danger"
+          *ngIf="step != 1"
+          class="btn btn-danger mx-2"
+          (click)="previous()"
+        >
+          Précédent
+        </button>
+
+        <button
+          nbButton
+          style="float: right; margin-top: 15px"
+          class="btn btn-primary mx-2"
+          *ngIf="step != 5"
+          (click)="suivant()"
+        >
+          suivant
+        </button>
+        <button
+        nbButton
+        style="
+          float: right;
+          border-color: white;
+          margin-top: 15px;
+          background: #79008e;
+        "
+          type="submit"
+          class="btn btn-primary mx-2"
+          *ngIf="step == 5"
+        >
+          ENREGISTRER
+        </button>
+      </div>
+
+      <br />
+    </form>
+  </nb-card-body>
+</nb-card>

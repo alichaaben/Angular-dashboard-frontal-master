@@ -1,0 +1,77 @@
+
+.p-button {
+  position: relative;
+  left: 1050px;
+  top: 0px;
+
+  }
+
+
+
+
+
+.breadcrumbs{
+
+  padding: 10px;
+  font-family: sans-serif;
+}
+
+
+.breadcrumbs__item{
+
+display: inline-block;
+
+}
+
+
+
+.breadcrumbs__item:not(:last-of-type)::after{
+
+  content: '/';
+  margin: 0 5px;
+  color: #cccccc;
+}
+
+.breadcrumbs__link{
+
+  text-decoration: none;
+  color: #999999;
+}
+
+
+
+.breadcrumbs__link:hover{
+
+  text-decoration:none;
+}
+
+
+.breadcrumbs__link--active{
+
+color: green;
+font-weight: 500;
+
+}
+
+
+.breadc{
+
+position: initial;
+top: 200px;
+
+}
+
+.breadcrumb li > *, .multi-steps li > * {
+  /* single step */
+  display: inline-block;
+  // color: #0055a0;
+  font-weight: bold;
+}
+
+
+.buttonPar {
+  text-align: right;
+    font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}

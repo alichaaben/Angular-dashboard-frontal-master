@@ -1,0 +1,59 @@
+<nb-card>
+    <nb-card-header> La liste des SMS </nb-card-header>
+    <nb-card-body>
+     
+  
+      <div style="margin-top: 40px">
+        <p-table
+          #dt
+          [value]="smsPartenaires"
+          [paginator]="true"
+          [rows]="10"
+          [rowsPerPageOptions]="[10, 20]"
+          [(first)]="first"
+          pageLinkSize="6"
+          (sortFunction)="customSort($event)"
+          [globalFilterFields]="['partenaire']"
+        >
+          <ng-template pTemplate="caption">
+            <div class="my-right">
+              <span class="p-input-icon-left ml-auto">
+                <input
+                  pInputText
+                  type="text"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')"
+                  placeholder="  Rechercher  "
+                />
+              </span>
+            </div>
+          </ng-template>
+  
+          <ng-template pTemplate="header">
+            <tr>
+              <th  pSortableColumn="partenaire">Partenaire<p-sortIcon field="partenaire"></p-sortIcon></th>
+              <th  pSortableColumn="body">body<p-sortIcon field="body"></p-sortIcon></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-c>
+            <tr>
+              <td>{{ c.partenaire }}</td>
+              <td>{{ c.body }}</td>
+              <!-- <td>{{ c.prenom }}</td>
+              <td>{{ c.email }}</td>
+              <td>{{ c.nTel }}</td> -->
+           
+            </tr>
+          </ng-template>
+  
+          <ng-template pTemplate="summary">
+            <div style="font-weight: bold" class="my-right">
+              {{ smsPartenaires?.length }} clients(s)
+            </div>
+          </ng-template>
+        </p-table>
+      </div>
+    </nb-card-body>
+  </nb-card>
+
+  <strong>works</strong>
+ <h5>{{ smsPartenaires?.length }}</h5> 

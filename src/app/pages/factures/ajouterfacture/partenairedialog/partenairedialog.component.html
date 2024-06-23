@@ -1,0 +1,174 @@
+<!-- Partners Dialog for Invoice adding-->
+<div>
+<nb-card>
+
+  <p-fieldset legend="Liste des partenaires">
+  <nb-card-body
+    ><div class="card">
+      <p-table
+        #sd
+        [value]="partenaires"
+        [paginator]="true"
+        [rows]="5"
+        [rowsPerPageOptions]="[5, 10, 15]"
+        [(first)]="first"
+        [totalRecords]="5"
+        [selection]="selectedpartnaire"
+        selectionMode="single"
+        (selectionChange)="onSelectionChange($event)"
+        (sortFunction)="customSort($event)"
+        [globalFilterFields]="[
+          'raisonSociale',
+          'nTel',
+          'adresse',
+          'dateCreation',
+          'abbreviation',
+          'fActif',
+          'devise',
+          'matriculeFiscale'
+        ]"
+      >
+        <ng-template pTemplate="caption">
+          <div class="my-right">
+
+            <br />
+            <span class="p-input-icon-right ml-auto">
+              <input pInputText type="text" (input)="sd.filterGlobal($event.target.value, 'contains')" placeholder=" chercher" />
+
+              <i class="pi pi-search"></i>
+
+          </span>
+            <br />
+            <br />
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th>
+            </th>
+
+
+            <th pSortableColumn="raisonSociale">
+              <p-columnFilter
+                type="text"
+                name="fieldName"
+                display="raisonSociale"
+              ></p-columnFilter
+              >Raison sociale <p-sortIcon field="raisonSociale"></p-sortIcon>
+            </th>
+            <th pSortableColumn="adresse">
+              <p-columnFilter
+                type="text"
+                field="adresse"
+                ngDefaultControl
+                display="adresse"
+              ></p-columnFilter
+              >Adresse <p-sortIcon field="adresse"></p-sortIcon>
+            </th>
+            <th pSortableColumn="abbreviation">
+              <p-columnFilter
+                type="text"
+                field="abbreviation"
+                ngDefaultControl
+                display="abbreviation"
+              ></p-columnFilter
+              >Abbréviation <p-sortIcon field="abbreviation"></p-sortIcon>
+            </th>
+            <th pSortableColumn="dateCreation">
+              <p-columnFilter
+                type="date"
+                field="dateCreation"
+                display="dateCreation"
+                ngDefaultControl
+              ></p-columnFilter
+              >Date création <p-sortIcon field="dateCreation"></p-sortIcon>
+            </th>
+            <th pSortableColumn="matriculeFiscale">
+              <p-columnFilter
+                type="text"
+                field="matriculeFiscale"
+                ngDefaultControl
+                display="matriculeFiscale"
+              ></p-columnFilter
+              >Matricule fiscale <p-sortIcon field="matriculeFiscale"></p-sortIcon>
+            </th>
+            <th pSortableColumn="nTel">
+              <p-columnFilter
+                type="text"
+                field="nTel"
+                ngDefaultControl
+                display="nTel"
+              ></p-columnFilter
+              >Téléphone <p-sortIcon field="nTel"></p-sortIcon>
+            </th>
+            <th pSortableColumn="siteWeb">
+              <p-columnFilter
+                type="text"
+                field="siteWeb"
+                display="siteWeb"
+              ></p-columnFilter
+              >Site web <p-sortIcon field="siteWeb"></p-sortIcon>
+            </th>
+
+            <th pSortableColumn="fActif">
+              <p-columnFilter
+                type="text"
+                field="fActif"
+                ngDefaultControl
+                display="fActif"
+              ></p-columnFilter
+              >Status<p-sortIcon field="fActif"></p-sortIcon>
+            </th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-partner>
+          <tr [pSelectableRow]="partner">
+            <td>
+
+              <a
+
+              (change)="onSelectionChange(idPartenaire,$event.target.checked)"  ></a>
+
+            </td>
+            <td>
+              {{ partner.raisonSociale }}
+            </td>
+            <td>{{ partner.adresse }}</td>
+            <td>{{ partner.abbreviation }}</td>
+            <td>{{ partner.dateCreation | date: "dd/MM/yyyy" }}</td>
+            <td>{{ partner.matriculeFiscale }}</td>
+            <td>{{ partner.nTel }}</td>
+            <td>{{ partner.siteWeb }}</td>
+            <td>
+              <div  *ngIf="partner.fActif">
+                <button class="btn-actif">actif</button>
+              </div>
+              <div *ngIf="partner.fActif == 0">
+                <button class="btn-inactif">inactif</button>
+              </div>
+            </td>
+
+
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary">
+          <div class="my-right">{{ partenaires?.length }} partenaire(s)</div>
+
+
+        </ng-template>
+      </p-table>
+    </div></nb-card-body
+  >
+  <div class="buttonPar">
+<button nbButton status="danger" class="block magenta margin-auto"  (click)="sendInfoPartenaire()" >Confirmer</button>
+</div>
+
+  </p-fieldset>
+</nb-card>
+</div>
+
+
+

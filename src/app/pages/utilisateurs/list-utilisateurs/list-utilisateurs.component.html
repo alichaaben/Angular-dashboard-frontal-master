@@ -1,0 +1,102 @@
+<nb-card>
+  <nb-card-header>
+    <h6>Gestion des utilisateurs</h6>
+  </nb-card-header>
+  <nb-card-body>
+    <p-table
+      #dt
+      dataKey="id"
+      [value]="users"
+      [paginator]="true"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 15]"
+      [(first)]="first"
+      [totalRecords]="6"
+      pageLinkSize="6"
+      (sortFunction)="customSort($event)"
+      [globalFilterFields]="[
+        'username',
+        'emailUser',
+        'sexeUser',
+        'phoneNumberUser',
+        'role'
+      ]"
+    >
+      <ng-template pTemplate="caption">
+        <h6>Tables des utilisateurs</h6>
+        <div class="my-right">
+          <span class="p-input-icon-left ml-auto">
+            <input
+              style="height: 40px"
+              pInputText
+              type="text"
+              (input)="dt.filterGlobal($event.target.value, 'contains')"
+              placeholder="   Rechercher "
+            />
+          </span>
+          <br />
+          <br />
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="username">
+            login <p-sortIcon field="username"></p-sortIcon>
+          </th>
+          <th pSortableColumn="emailUser">
+            EMAIL <p-sortIcon field="emailUser"></p-sortIcon>
+          </th>
+          <th pSortableColumn="sexeUser">
+            Genre <p-sortIcon field="sexeUser"></p-sortIcon>
+          </th>
+          <th pSortableColumn="phoneNumberUser">
+            Numero téléphone <p-sortIcon field="phoneNumberUser"></p-sortIcon>
+          </th>
+          <th pSortableColumn="role">
+            Role <p-sortIcon field="role"></p-sortIcon>
+          </th>
+
+          <th style="text-align: center;">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-u>
+        <tr>
+          <td style="color: aqua">
+            <h6>{{ u.username }}</h6>
+          </td>
+          <td>{{ u.emailUser }}</td>
+          <td>
+        <div *ngIf="u.sexeUser==Men">Homme</div>
+    </td>
+          <td>{{ u.phoneNumberUser }}</td>
+          <td>{{ u.role }}</td>
+          <td style="text-align: center;" >
+            <button
+              title="débloquer"
+              [hidden]="u.avilaibility == true"
+              pButton
+              pRipple
+              icon="pi pi-lock-open"
+              class="p-button-rounded p-button-warning"
+            ></button>
+            <button
+              title="bloquer"
+              [hidden]="u.avilaibility == false"
+              pButton
+              pRipple
+              icon="pi pi-lock"
+              class="p-button-rounded p-button-danger"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="summary">
+        <div style="font-weight: bold" class="my-right">
+          {{ users?.length }} utilsateur (s)
+        </div>
+      </ng-template>
+    </p-table>
+  </nb-card-body>
+</nb-card>

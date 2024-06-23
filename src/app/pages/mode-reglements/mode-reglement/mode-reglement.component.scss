@@ -1,0 +1,32 @@
+fieldset {
+    background-color: #faf9f9;
+    width: 470px;
+  margin-bottom: 2cm;}
+  
+  .form-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  }
+  .test {
+    display: inline-block;
+    width: 500px;
+    margin: 30px;
+    height: 50px;
+  }
+  // .test input {
+  //   height: 30px;
+  //   width: 300px;
+  // }
+  #alert alert-danger{
+  margin-top: 50px;
+  }
+  input[type="radio"]{
+  font-size: 20px;
+  }
+  legend{
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  

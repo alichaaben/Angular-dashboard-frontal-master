@@ -1,0 +1,210 @@
+<div class="bcca-breadcrumb">
+  <div class="bcca-breadcrumb-item">Détails abonnement <i class="fa fa-pencil"></i></div>
+  <div class="bcca-breadcrumb-item"> <a [routerLink]="['/pages/abonnements/list-abonnements']" > List des abonnements</a> </div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/dashboard']" >Home</a>  </div>
+</div>
+<nb-card>
+  <nb-card-header>
+    <div>
+      <div class="col-md-6">
+        <span style="font-size: 25px"> Gestion des abonnements </span>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <p-dialog
+      header="Envoyer un SMS de rappel"
+      [closable]="false"
+      [(visible)]="display"
+      [style]="{ width: '50vw' }"
+      [modal]="true"
+    >
+      <div class="row" style="margin-bottom: 50px">
+        <div class="col-sm-6">
+          <label class="label"
+            >Partenaire :<span style="color: red">*</span></label
+          >
+          <input
+            nbInput
+            type="text"
+            style="font-size: 18px; font-weight: bold"
+            class="form-control"
+            fullWidth
+            [value]="selectedPartner?.raisonSociale"
+            disabled
+          />
+        </div>
+        <div class="col-sm-6">
+          <label class="label"
+            >Corps du sms :<span style="color: red">*</span></label
+          >
+          <textarea
+            nbInput
+            style="font-size: 18px; font-weight: bold"
+            class="form-control"
+            fullWidth
+            type="text"
+            disabled
+            [value]="corpsSms"
+          ></textarea>
+        </div>
+        <div class="col-sm-6">
+          <label class="label"
+            >Destination :<span style="color: red">*</span></label
+          >
+          <input
+            nbInput
+            type="text"
+            style="font-size: 18px; font-weight: bold"
+            class="form-control"
+            fullWidth
+            [value]="selectedPartner?.nTel"
+            disabled
+          />
+        </div>
+        <div class="col-sm-6">
+          <label class="label"
+            >Date Expiration abonnement :<span style="color: red"
+              >*</span
+            ></label
+          >
+          <input
+            nbInput
+            type="date"
+            style="font-size: 18px; font-weight: bold"
+            class="form-control"
+            [value]="selectedAbonnement?.dateFin | date: 'yyyy-MM-dd'"
+            fullWidth
+            disabled
+          />
+        </div>
+      </div>
+      <button
+        nbButton
+        style="
+          float: right;
+          border-color: white;
+          margin-top: 15px;
+          background: #79008e;
+        "
+        type="submit"
+        status="success"
+        class="btn btn-primary mx-2"
+        (click)="
+          valider(selectedPartner.idPartenaire, selectedAbonnement.idAbonnement)
+        "
+      >
+        valider
+      </button>
+      <button
+        nbButton
+        style="float: left; border-color: white; margin-top: 15px"
+        type="submit"
+        status="danger"
+        class="btn btn-danger mx-2"
+        (click)="annuler()"
+      >
+        Annuler
+      </button>
+    </p-dialog>
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+
+    <p-table 
+      #dt
+      dataKey="id"
+      [value]="abonnements"
+      [paginator]="true"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10]"
+      [totalRecords]="6"
+      pageLinkSize="6"
+    >
+      <ng-template pTemplate="caption">
+        <h6>Table des abonnements</h6>
+        <div class="my-right">
+         
+          <br />
+     
+          <br />
+          <br />
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="text-align: center;" >Type abonnement</th>
+          <th>Date début</th>
+          <th>Date fin</th>
+          <th style="text-align: center;">status</th>
+          <th style="text-align: center;">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-abonnement>
+        <tr>
+          <td style="text-align: center;font-weight: bold;">
+            <div *ngIf="abonnement.typeAbonnement == 1">Trimestriel</div>
+            <div *ngIf="abonnement.typeAbonnement == 2">Semestriel</div>
+            <div *ngIf="abonnement.typeAbonnement == 3">Annuel</div>
+          </td>
+          <td>{{ abonnement.dateDebut | date: "dd/MM/yyyy" }}</td>
+          <td>{{ abonnement.dateFin | date: "dd/MM/yyyy" }}</td>
+
+          <td style="text-align: center;">
+            <div *ngIf="abonnement.status">
+              <button class="btn-actif">payé</button>
+            </div>
+            <div *ngIf="abonnement.status == 0">
+              <button class="btn-inactif">non payé</button>
+            </div>
+          </td>
+          <td style="text-align: center;">
+            <button
+              [hidden]="abonnement.status == 1"
+              title="Envoyer mail de rappel"
+              pButton
+              icon="pi pi-send"
+              class="p-button-rounded p-button-success mr-2"
+              (click)="
+                openDialogSendSMS(
+                  abonnement.idPartenaire,
+                  abonnement.idAbonnement
+                )
+              "
+            ></button>
+
+            <button
+              title="modifier"
+              pButton
+              icon="pi pi-user-edit"
+              class="p-button-rounded p-button-info mr-2"
+              (click)="modifier(abonnement.idAbonnement)"
+            ></button>
+            <button
+              title="marquer comme payé"
+              pButton
+              icon="pi pi-dollar"
+              class="p-button-rounded p-button-warning mr-2"
+              (click)="changeEtatAbonnementToPaye(abonnement.idAbonnement)"
+              [hidden]="abonnement.status == 1"
+            ></button>
+            <button
+              title="marquer comme non payé"
+              pButton
+              icon="pi pi-dollar"
+              class="p-button-rounded p-button-danger mr-2"
+              (click)="changeEtatAbonnementToNonPaye(abonnement.idAbonnement)"
+              [hidden]="abonnement.status == 0"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="summary">
+        <div style="font-weight: bold" class="my-right">
+          {{ abonnements?.length }} abonnements(s)
+        </div>
+      </ng-template>
+    </p-table>
+  </nb-card-body>
+</nb-card>

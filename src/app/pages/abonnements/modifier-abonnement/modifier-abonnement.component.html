@@ -1,0 +1,207 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="bcca-breadcrumb">
+  <div class="bcca-breadcrumb-item">Modifier abonnement <i class="fa fa-pencil"></i></div>
+  <div class="bcca-breadcrumb-item"> <a [routerLink]="['/pages/abonnements/details-abonnements/',abn?.idPartenaire]" > Détails abonnements</a> </div>
+  <div class="bcca-breadcrumb-item"> <a [routerLink]="['/pages/abonnements/list-abonnements']" > List des abonnements</a> </div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/dashboard']" >Home</a>  </div>
+</div>
+<nb-card>
+  <nb-card-header>
+    <div class="col-md-6">
+      <span style="font-size: 25px"> Modifier un abonnement </span>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <form (ngSubmit)="submit()" [formGroup]="abonnement">
+      <div class="row">
+        <div class="col-sm-6">
+          <label class="label"
+            >Partenaire<span style="color: red">*</span></label
+          >
+          <br />
+          <p-dropdown
+            [readonly]="true"
+            [options]="partenaires"
+            formControlName="partenaire"
+            optionLabel="raisonSociale"
+            optionValue="idPartenaire"
+            placeholder="&nbsp; Veuillez choisir un partenaire"
+            autoWidth="false"
+            [style]="{ width: '100%', 'font-weight': 'bold' }"
+            [required]="true"
+            [filter]="true"
+            filterPlaceholder="&nbsp;Rechercher"
+            (onChange)="onSelectPartenaire($event)"
+          ></p-dropdown>
+
+          <!--(onChange)="onSelectPartenaire($event.target.value)"
+
+          <div class="form-group">
+            <label class="label"
+              >Partenaire<span style="color: red">*</span></label
+            >
+            <nb-select
+              [ngClass]="{
+                'is-invalid': submitted && abonnement.get('partenaire').errors
+              }"
+              placeholder="Partenaire"
+              fullWidth
+              formControlName="partenaire"
+              (change)="onSelectPartenaire($event.target.value)"
+            >
+              <nb-option *ngFor="let p of partenaires"  [value]="p.idPartenaire">
+                {{ p.raisonSociale }}
+              </nb-option>
+            </nb-select>
+            <div
+              id="ngIf"
+              *ngIf="submitted && abonnement.get('partenaire').errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="abonnement.get('partenaire').errors.required">
+                Partenaire est obligatoire !
+              </div>
+            </div>
+          </div> -->
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="label"
+              >Type d'abonnement<span style="color: red">*</span></label
+            >
+            <br />
+            <nb-radio-group name="type" formControlName="typeAbonnement" (valueChange)="onSelectTypeAbonnement($event)">
+              <nb-radio
+                checked="checked"
+                fullWidth
+                style="display: inline !important"
+                [value]="1"
+              >
+                Trimestriel
+              </nb-radio>
+              <nb-radio
+                fullWidth
+                style="display: inline !important"
+                [value]="2"
+              >
+                Semestriel
+              </nb-radio>
+              <nb-radio
+                fullWidth
+                style="display: inline !important"
+                [value]="3"
+              >
+                Annuel
+              </nb-radio>
+            </nb-radio-group>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="label"
+              >Date début<span style="color: red">*</span></label
+            >
+            <input
+              (change)="onSelectDate($event.target.value)"
+              nbInput
+              style="font-size: 18px; font-weight: bold"
+              formControlName="dateDebut"
+              fullWidth
+              placeholder="date début"
+              type="date"
+              class="form-control"
+              value="{{ abn.dateDebut | date: 'yyyy-MM-dd' }}"
+              [ngClass]="{
+                'is-invalid': submitted && abonnement.get('dateDebut').errors
+              }"
+            />
+            <div
+              id="ngIf"
+              *ngIf="submitted && abonnement.get('dateDebut').errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="abonnement.get('dateDebut').errors.required">
+                Veuillez d'abord choisir le type d'abonnement
+                <br />
+                Date début est obligatoire !
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="label"
+              >Date fin<span style="color: red">*</span></label
+            >
+            <input
+              readonly
+              nbInput
+              style="font-size: 18px; font-weight: bold"
+              formControlName="dateFin"
+              fullWidth
+              placeholder="date fin"
+              value="{{ abn.dateFin | date: 'yyyy-MM-dd' }}"
+              type="date"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': submitted && abonnement.get('dateDebut').errors
+              }"
+            />
+            <div
+              id="ngIf"
+              *ngIf="submitted && abonnement.get('dateDebut').errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="abonnement.get('dateDebut').errors.required">
+                Date fin est obligatoire !
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="label"
+              >Etat d'abonnement<span style="color: red">*</span></label
+            >
+            <br />
+            <nb-radio-group name="etat" formControlName="status">
+              <nb-radio style="display: inline !important" [value]="1">
+                Payé
+              </nb-radio>
+              <nb-radio style="display: inline !important" [value]="0">
+                Non payé
+              </nb-radio>
+            </nb-radio-group>
+          </div>
+        </div>
+      </div>
+
+      <button
+        nbButton
+        style="
+          float: right;
+          border-color: white;
+          margin-top: 15px;
+          background: #79008e;
+        "
+        type="submit"
+        status="success"
+        class="btn btn-primary mx-2"
+      >
+        Modifier
+      </button>
+      <button
+        nbButton
+        style="float: left; border-color: white; margin-top: 15px"
+        type="submit"
+        status="danger"
+        class="btn btn-danger mx-2"
+        (click)="annuler()"
+      >
+        Annuler
+      </button>
+    </form>
+  </nb-card-body>
+</nb-card>

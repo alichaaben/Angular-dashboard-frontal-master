@@ -1,0 +1,94 @@
+
+
+<div class="container ">
+  <ol class="breadcrumb shadow-lg bg-white">
+
+      <li class="breadcrumb-item ">  <a  routerLink="/pages" class="breadcrumbs__link"> <i class="pi pi-home"></i> Accueil</a></li>
+      <li class="breadcrumb-item "> <a routerLink="/pages/facture/listfactures" class="breadcrumbs__link">List des factures</a></li>
+      <li class="breadcrumb-item "><a   routerLink="/pages/facture/listfacturesinarchive"  class="breadcrumbs__link breadcrumbs__link--active">List des Factures Archivées</a> </li>
+  </ol>
+</div>
+  <br>
+<p-fieldset legend="Factures Archivées">
+  <div class="card">
+
+    <!-- list des factues -->
+    <p-table
+    styleClass="p-datatable-gridlines"
+    #sd
+    responsiveLayout="scroll"
+    selectionMode="single"
+    currentPageReportTemplate="Affichage de {first} a {last} des factures archivées" styleClass="p-datatable-customers p-datatable-gridlines"
+    totalRecords="{{totalRecords}}"
+      [paginator]="true"
+      [rows]="6"
+      [showCurrentPageReport]="true"
+      responsiveLayout="scroll"
+      [rowsPerPageOptions]="[6, 10, 20]"
+      [value]="listfacture"
+      [globalFilterFields]="['numFacture','name','dateCreation','statusFacture']" >
+
+
+      <ng-template pTemplate="caption">
+        <div class="flex">
+
+
+            <span class="p-input-icon-right ml-auto">
+                <input pInputText type="text" (input)="sd.filterGlobal($event.target.value, 'contains')" placeholder=" Search keyword" />
+
+                <i class="pi pi-search"></i>
+
+            </span>
+
+        </div>
+        </ng-template>
+
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="numFacture"><p-columnFilter type="text" field="numFacture" display="nom"></p-columnFilter>Numéro Facture <p-sortIcon field="numFacture"></p-sortIcon></th>
+          <th pSortableColumn="dateCreation"><p-columnFilter type="text" field="dateCreation" display="dateCreation"></p-columnFilter> Date de création  <p-sortIcon field="dateCreation"></p-sortIcon></th>
+          <th pSortableColumn="startDate"><p-columnFilter type="text" field="startDate" display="startDate"></p-columnFilter> Début abonnement  <p-sortIcon field="startDate"></p-sortIcon></th>
+          <th pSortableColumn="endDate"><p-columnFilter type="text" field="endDate" display="endDate"></p-columnFilter> Fin abonnement  <p-sortIcon field="endDate"></p-sortIcon></th>
+
+          <th pSortableColumn="name"><p-columnFilter type="text" field="name" display="name"></p-columnFilter>Partenaire <p-sortIcon field="name"></p-sortIcon></th>
+          <th pSortableColumn="statusFacture"><p-columnFilter type="text" field="statusFacture" display="statusFacture"></p-columnFilter>Statut <p-sortIcon field="statusFacture"></p-sortIcon></th>
+          <th>Prix Total (Dt)</th>
+          <th>Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-facture>
+        <!-- <tr *ngFor="let factur of selectedPart"> -->
+<tr>
+          <td>{{ facture.numFacture }}</td>
+          <td>{{ facture.dateCreation | date: "dd/MM/yyyy" }}</td>
+          <td>{{ facture.startDate | date: "dd/MM/yyyy" }}</td>
+          <td>{{ facture.endDate | date: "dd/MM/yyyy" }}</td>
+
+          <td>{{ facture.name}}</td>
+
+
+          <td> {{ facture.statusFacture }} </td>
+
+          <td>
+
+  {{facture.totalpricetva}}           </td>
+           <td>
+
+            <a [routerLink]="['/pages/facture/listfactures/detailFacture', facture.idFacture]">
+              <button pButton pRipple type="button"  icon="pi pi-bookmark" class="p-button-rounded p-button-secondary"></button>
+            </a>
+
+           </td>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft"> </ng-template>
+      <ng-template pTemplate="paginatorright">
+      </ng-template>
+      <ng-template pTemplate="summary">
+        Total factures archivées :   {{ listfacture?.length }}
+      </ng-template>
+    </p-table>
+  </div>
+</p-fieldset>

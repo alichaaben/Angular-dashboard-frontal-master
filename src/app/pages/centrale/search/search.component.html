@@ -1,0 +1,51 @@
+<nb-accordion>
+  <nb-accordion-item>
+    <nb-accordion-item-header>
+      <h6 style="font-size: 15px">Afficher les critères de recherche</h6>
+    </nb-accordion-item-header>
+    <nb-accordion-item-body>
+      <form novalidate [formGroup]="form">
+        <div class="row">
+          <div class="col-md-3 col-sm-3">
+            <select class="form-control" formControlName="genre">
+              <option value="">Genre</option>
+              <option value="Homme">Homme</option>
+              <option value="Femme">Femme</option>
+            </select>
+          </div>
+          <div class="col-md-3 col-sm-3">
+            <select class="form-control" formControlName="isconnected">
+              <option value="">Connexion</option>
+              <option value="1">Connecté</option>
+              <option value="0">Non connecté</option>
+            </select>
+          </div>
+          <div class="col-md-3 col-sm-3">
+            <select class="form-control" formControlName="isActive">
+              <option value="">Activation</option>
+              <option value="1">Actif </option>
+              <option value="0">Non Actif</option>
+            </select>
+          </div>
+        </div>
+      </form>
+      <button
+        nbButton
+        style="
+          float: right;
+          border-color: white;
+          margin-top: 15px;
+          background: #79008e;
+        "
+        type="submit"
+        status="success"
+        class="btn btn-primary mx-2"
+        (click)="search(form.value)"
+      >
+        Rechercher
+      </button>
+    </nb-accordion-item-body>
+  </nb-accordion-item>
+</nb-accordion>
+
+<br />

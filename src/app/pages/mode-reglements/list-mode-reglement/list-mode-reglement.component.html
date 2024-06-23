@@ -1,0 +1,103 @@
+<div class="bcca-breadcrumb">
+  <div class="bcca-breadcrumb-item">List mode de réglement <i class="fa fa-pencil"></i></div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/dashboard']" >Home</a>  </div>
+</div>
+<nb-card>
+  <nb-card-header>
+    <div class="col-md-6">
+      <span style="font-size: 25px"> Gestion de mode de réglement </span>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+    <p-table
+      #dt
+      dataKey="id"
+      [value]="listModeReglement"
+      [paginator]="true"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10]"
+      [(first)]="first"
+      [totalRecords]="6"
+      pageLinkSize="6"
+    >
+      <ng-template pTemplate="caption">
+        <h6>Table des mode de réglement</h6>
+        <div class="my-right">
+          <button
+            style="margin-bottom: 20px"
+            pButton
+            label="Ajouter nouveau mode reglement"
+            class="p-button-info"
+            id="btn-add"
+            icon="pi pi-edit "
+            (click)="navigateAddModeReglement()"
+          ></button>
+          <br />
+          <span class="p-input-icon-left ml-auto">
+            <input
+              style="height: 40px"
+              pInputText
+              type="text"
+              (input)="dt.filterGlobal($event.target.value, 'contains')"
+              placeholder="      Rechercher  "
+            />
+          </span>
+          <br />
+          <br />
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Désignation</th>
+          <th>Code</th>
+          <th style="text-align: center">Couleur</th>
+          <th style="text-align: center">Status</th>
+          <th style="text-align: center">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-modeReglement>
+        <tr>
+          <td style="font-weight: bold">{{ modeReglement.designation }}</td>
+          <td>{{ modeReglement.code }}</td>
+          <td style="text-align: center">
+            <input type="color" disabled value="{{ modeReglement.couleur }}" />
+          </td>
+          <td style="text-align: center">
+            <button class="btn-actif" *ngIf="modeReglement.isactif == 1">
+              actif
+            </button>
+            <button *ngIf="modeReglement.isactif == 0">non actif</button>
+          </td>
+          <td style="text-align: center">
+            <button
+              title="modifier mode de réglement"
+              pButton
+              pRipple
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-info mr-2"
+              (click)="updateModeReglement(modeReglement.idModeReglement)"
+            ></button>
+            <!-- &nbsp;
+            <button
+              title="supprimer"
+              pButton
+              pRipple
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-danger"
+              (click)="deleteModeReglement(modeReglement.idModeReglement)"
+            ></button> -->
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="summary">
+        <div style="font-weight: bold" class="my-right">
+          {{ listModeReglement?.length }} Mode de Reglement(s)
+        </div>
+      </ng-template>
+    </p-table>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,474 @@
+<p-toast></p-toast>
+
+<div class="container ">
+  <ol class="breadcrumb shadow-lg bg-white">
+      <li class="breadcrumb-item ">  <a  routerLink="/pages" class="breadcrumbs__link"> <i class="pi pi-home"></i> Accueil</a></li>
+      <li class="breadcrumb-item "> <a routerLink="/pages/facture/listfactures" class="breadcrumbs__link">List des factures</a></li>
+      <li class="breadcrumb-item "><a routerLink="/pages/facture/Ajouterfacture"  class="breadcrumbs__link breadcrumbs__link--active">Ajouter facture</a> </li>
+  </ol>
+</div>
+
+<div class="card">
+
+  <form [formGroup]="factform" >
+          <div class="col-12">
+              <div class="text-center text-150">
+                  <div class="col-lg-8 col-sm-5 ml-auto">
+
+        <h1 class="page-title text-secondary-d1">
+          Facture
+          <small class="page-info">
+              <i class="fa fa-angle-double-right text-80"></i>
+              {{facture.numFacture}}
+          </small>
+        </h1>
+                    <div class="col-lg-2 "> <img src="assets/images/preview.png" alt="Trulli" width="400" height="200 " >
+                    </div>
+
+                  </div>
+                </div>
+          </div>
+
+        <div class="grid p-fluid">
+          <div class="row">
+          <div class="col-md-6">
+
+
+          <div class="form-group">
+
+
+<!-- ajout facture-->
+
+            <!--  partner inpute with dig comp data-->
+       <label class="label">Selecionner un partenaire :<span style="color: red">*</span></label>
+       <br>
+                  <input (click)="openDialogpar()"
+                  class="form-control"
+                  onkeydown="return false"
+                      fullWidth
+                       maxlength="100"
+                       [(ngModel)]="namepartnerstring"
+                  formControlName="idPartenaireBprice"
+                   [class.invalid]="factform.get('idPartenaireBprice').invalid &&
+                   (factform.get('idPartenaireBprice').dirty || factform.get('idPartenaireBprice').touched)"
+                    />
+            <div class="warn">
+              <ng-container *ngIf="factform.get('idPartenaireBprice').invalid &&
+              factform.get('idPartenaireBprice').errors &&
+        (factform.get('idPartenaireBprice').dirty || factform.get('idPartenaireBprice').touched)" >
+    <small class="text-danger"
+        *ngIf="factform.get('idPartenaireBprice').hasError('required')">
+         champ Partenaire est  obligatoire.
+            </small>
+          </ng-container  >
+            </div>
+          </div>
+
+
+
+
+
+          <div class="form-group">
+
+            <label class="label"> Date début d'abonnement :<span style="color: red">*</span></label>
+              <p-calendar inputId="calendar"
+              [showIcon]="true"  formControlName="startDate"
+           class="form-control" date-format=" M/d/yy" [readonlyInput]="true"  class="ng-invalid ng-dirty"
+           [class.invalid]="factform.get('startDate').invalid &&
+           (factform.get('startDate').dirty || factform.get('startDate').touched)"
+             ></p-calendar>
+
+             <div class="warn">
+             <ng-container *ngIf="factform.get('startDate').invalid &&
+             factform.get('startDate').errors &&
+       (factform.get('startDate').dirty || factform.get('startDate').touched)">
+           <small class="text-danger"
+       *ngIf="factform.get('startDate').hasError('required')">
+       Debut d'abonnement est obligatoire.
+             </small>
+             </ng-container>
+             </div>
+          </div>
+          </div>
+
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="label">Statut actuel de la facture:<span style="color: red">*</span></label>
+              <br>
+                <select
+                fullWidth
+                maxlength="100"
+                  class="form-control"
+                  formControlName="statusFacture"
+                  name="type"
+
+                  [class.invalid]="factform.get('statusFacture').invalid &&
+                  (factform.get('statusFacture').dirty || factform.get('statusFacture').touched)" >
+                  <option [ngValue]="undefined" ></option>
+                  <option *ngFor="let a of Key()">{{ a }}</option>
+                  <!-- <option *ngFor="let state of States | keyvalue ">{{state['key'] +" is "+ state['value']}}</option> -->
+
+                </select>
+
+                <div class="warn">
+
+                <ng-container *ngIf="factform.get('statusFacture').invalid &&
+                factform.get('statusFacture').errors &&
+          (factform.get('statusFacture').dirty || factform.get('statusFacture').touched)">
+      <small class="text-danger"
+          *ngIf="factform.get('statusFacture').hasError('required')">
+          Statut de facture est obligatoire.
+      </small>
+
+              </ng-container>
+                </div>
+            </div>
+
+          <div class="form-group">
+            <label class="label"> Date d'expiration d'abonnement :<span style="color: red">*</span></label>
+              <p-calendar
+              [showIcon]="true"
+              inputId="calendar"
+              formControlName="endDate"
+              name="dateexp" class="form-control" date-format=" M/d/yy" min="2022-03-29" max="2029-12-31"
+              class="ng-invalid ng-dirty"
+
+              > </p-calendar>
+              <div class="warn">
+
+              <ng-container *ngIf="factform.get('endDate').invalid &&
+              factform.get('endDate').errors &&
+        (factform.get('endDate').dirty || factform.get('endDate').touched)">
+       <small class="text-danger"
+        *ngIf="factform.get('endDate').hasError('required')">
+        Date d'expiration est obligatoire.
+       </small>
+              </ng-container>
+              </div>
+
+        </div>
+          </div>
+        </div>
+          </div>
+
+
+        <div id="page-content">
+            <div class="row container d-flex justify-content-center">
+              <div class="col-md-12">
+                  <div class="box-header with-border">
+                    <label class="label">Ajouter des produits :<span style="color: red">*</span></label>
+                  </div>
+
+                 <div class="buttonajout">  <a nbButton  status="danger" class="btn btn-sm btn-success text-white" (click)="showsavedialog()"><i class="fa fa-plus"></i> Ajouter</a></div> 
+
+                  <!-- tableau produit-->
+                  <div class="box-body">
+                    <table class="table table-bordered">
+                      <thead class="">
+                        <tr>
+                          <th>Produit</th>
+                          <th>Remise %</th>
+                          <th>Quantité</th>
+                          <th>Prix</th>
+                          <th>Total</th>
+                          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngIf="detailf.length == 0">
+                          <td class="font-italic text-center" colspan="5">
+                            Aucun Produit sélectionnée ...
+                          </td>
+                        </tr>
+                        <tr *ngFor="let item of detailf; let i = index">
+                          <td>{{ item.codeProduit }}</td>
+                          <td>{{ item.remise }}</td>
+                          <td>{{ item.quantite }}</td>
+                          <td>{{ item.prix }}</td>
+                          <td>{{item.prix*item.quantite*((100-item.remise)/100) || ''}}</td>
+                          <td>
+                            <div class="vertical-center">
+
+
+                              <button
+                                pButton
+                                pRipple
+                                type="button"
+                                icon="pi pi-times"
+                                (click)="supprimerproduit(i)"
+                                class="p-button-rounded p-button-danger p-button-outlined"
+                              ></button>
+                            </div>
+
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                    <div class="prixtotal">
+                             <p style="padding: 10  px; border: 3px solid rgb(228, 55, 70);border-radius: 30px;"> Prix total (HT) : {{facture.totalprice}}  DT</p>
+                    </div>
+
+                  </div>
+              </div>
+            </div>
+
+
+
+
+          <div class="form-group">
+
+
+
+            <!--  termes et notes input -->
+       <label class="label">Termes et notes:<span style="color: red">*</span></label>
+       <br>
+       <textarea rows = "5" cols = "60" name = "termsandNotes" name="termsandNotes"  id="apellido" class="form-control"
+       required id="apellido" formControlName="termsandNotes"
+       [class.invalid]="factform.get('termsandNotes').invalid &&
+       (factform.get('termsandNotes').dirty || factform.get('termsandNotes').touched)"
+
+       ></textarea>
+
+            <div class="warn">
+              <ng-container *ngIf="factform.get('termsandNotes').invalid &&
+              factform.get('termsandNotes').errors &&
+        (factform.get('termsandNotes').dirty || factform.get('termsandNotes').touched)" >
+    <small class="text-danger"
+        *ngIf="factform.get('termsandNotes').hasError('required')">
+         champ de terrmes et notes  est  obligatoire.
+            </small>
+          </ng-container  >
+            </div>
+          </div>
+
+
+
+
+
+
+
+          <div class="buttonPar">
+            <label class="pr-2 text-muted" ></label>
+            <button nbButton  (click)="AjouterF()" [disabled]="!factform.valid && !dialogform.valid ">
+
+              Ajouter Facture
+            </button>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+  </form>
+
+</div>
+<!-- dialog d'ajout des produits pour les details dy facture-->
+
+<form [formGroup]="dialogform" (ngSubmit)="ajouterDetail2(detailfacture)">
+  <p-dialog
+    header="Détail de la facture  "
+    styleClass="myClass"
+    [(visible)]="displaysaveDialog"
+    [responsive]="true"
+    [style]="{ width: '700px' }"
+    [modal]="true"
+  >
+    <div class="ui-g ui-fluid">
+      <div class="form-group">
+      <div class="ui-g-8">
+        <label class="label">Produit <span style="color: red">*</span></label>
+      </div>
+          <select
+            class="form-control"
+            formControlName="produit"
+            aria-label="Default select example"
+            type="text"
+            (change)="updatePrice($event.target)"
+            [class.invalid]="dialogform.get('produit').invalid &&
+              (dialogform.get('produit').dirty || dialogform.get('produit').touched)"
+          >
+            <option [ngValue]="undefined" selected>
+              Selectionner un produit
+            </option>
+            <option
+              #useridd
+              *ngFor="let u of listproduit"
+              [value]="u.nomProduit">
+              {{ u.nomProduit }}
+            </option>
+          </select>
+          <div class="warn">
+
+          <ng-container *ngIf="dialogform.get('produit').invalid &&
+          dialogform.get('produit').errors &&
+        (dialogform.get('produit').dirty || dialogform.get('produit').touched)">
+    <small class="text-danger"
+        *ngIf="dialogform.get('produit').hasError('required')"
+        >
+        champ produit est obligatoire.
+    </small>
+              </ng-container>
+          </div>
+      </div>
+      <div class="row">
+      <div class="col-md-6">
+          <div class="form-group">
+        <label class="label" >Remise:(%)<span style="color: red">*</span></label>
+
+
+        <input
+          formControlName="remise"
+          class="form-control"
+          id="remise"
+          type="number"
+
+          [class.invalid]="dialogform.get('remise').invalid &&
+          (dialogform.get('remise').dirty || dialogform.get('remise').touched)"
+        />
+        <div class="warn">
+          <ng-container *ngIf="dialogform.get('remise').invalid &&
+          dialogform.get('remise').errors &&
+          (dialogform.get('remise').dirty || dialogform.get('remise').touched)">
+      <small class="text-danger"
+          *ngIf="dialogform.get('remise').hasError('required')">
+           le champ remise est obligatoire.
+      </small>
+      </ng-container>
+
+        </div>
+
+
+        </div>
+      </div>
+      <div class="col-md-6">
+
+      <div class="form-group">
+        <label class="label" for="apellido">Quantité:<span style="color: red">*</span></label>
+        <input
+          type="number"
+          formControlName="Quantite"
+          class="form-control"
+          min="1"
+          id="Quantite"
+
+          [class.invalid]="dialogform.get('Quantite').invalid &&
+              (dialogform.get('Quantite').dirty || dialogform.get('Quantite').touched)"
+              [class.invalid]="dialogform.get('Quantite').invalid &&
+        (dialogform.get('Quantite').dirty || dialogform.get('Quantite').touched)"
+        />
+
+        <div class="warn">
+          <ng-container *ngIf="dialogform.get('Quantite').invalid &&
+          dialogform.get('Quantite').errors &&
+          (dialogform.get('Quantite').dirty || dialogform.get('Quantite').touched)">
+      <small class="text-danger"
+          *ngIf="dialogform.get('Quantite').hasError('required')">
+          le champ Quantite est obligatoire.
+
+      </small>
+      </ng-container>
+
+        </div>
+      </div>
+
+
+      </div>
+      <div class="col-md-6">
+
+        <div class="form-group">
+          <label class="label" for="apellido"> Taux TVA(%):<span style="color: red">*</span></label>
+          <input
+            type="number"
+            formControlName="tva"
+            class="form-control"
+            min="1"
+            id="tva"
+            [class.invalid]="dialogform.get('tva').invalid &&
+            (dialogform.get('tva').dirty || dialogform.get('tva').touched)"
+            [class.invalid]="dialogform.get('tva').invalid &&
+          (dialogform.get('tva').dirty || dialogform.get('tva').touched)"
+          />
+
+
+        <div class="warn">
+          <ng-container *ngIf="dialogform.get('tva').invalid &&
+          dialogform.get('tva').errors &&
+          (dialogform.get('tva').dirty || dialogform.get('tva').touched)">
+      <small class="text-danger"
+          *ngIf="dialogform.get('tva').hasError('required')">
+         le champ tva est obligatoire.
+
+      </small>
+      </ng-container>
+
+        </div>
+        </div>
+
+        </div>
+        <div class="col-md-6">
+
+        <div class="form-group">
+          <label class="label">Prix:(Dt)<span style="color: red">*</span></label>
+
+          <input
+            type="number"
+            formControlName="Prix"
+            disabled
+            class="form-control"
+            [(ngModel)]="detailfacture.prix"
+
+            placeholder=""
+            (keydown.space)="$event.preventDefault()"
+
+            (input)="alphaNumberOnly($event)"
+            (keypress)="alphaNumberOnly($event)"
+            (paste)="onPaste($event)"
+            [class.invalid]="dialogform.get('remise').invalid &&
+            (dialogform.get('remise').dirty || dialogform.get('remise').touched)"
+          />
+
+        <div *ngIf="dialogform.get('Prix').invalid &&
+        dialogform.get('Prix').errors &&
+      (dialogform.get('Prix').dirty || dialogform.get('Prix').touched)">
+  <small class="text-danger"
+      *ngIf="dialogform.get('Prix').hasError('Prix')">
+      champ obligatoire.
+  </small>
+
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+
+
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button
+          type="button"
+          nbButton
+          status="primary"
+          icon="pi pi-check"
+          (click)="ajouterDetail2(detailfacture)"
+          [disabled]="!dialogform.valid"
+          name="montant"
+          label="Ajouter"
+        >Ajouter</button>
+      </div>
+
+
+
+    </p-footer>
+  </p-dialog>
+</form>
+
+<p-confirmDialog [style]="{ width: '750 px' }"></p-confirmDialog>
+

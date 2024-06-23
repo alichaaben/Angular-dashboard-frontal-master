@@ -1,0 +1,241 @@
+<div class="bcca-breadcrumb">
+  <div class="bcca-breadcrumb-item">List des abonnements <i class="fa fa-pencil"></i></div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/dashboard']" >Home</a>  </div>
+</div>
+<nb-card>
+  <nb-card-header>
+    <div>
+      <div class="col-md-6">
+        <span style="font-size: 25px"> Gestion des abonnements </span>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <p-dialog
+      header="Envoyer un SMS de rappel"
+      [closable]="false"
+      [(visible)]="display"
+      [style]="{ width: '50vw' }"
+      [modal]="true"
+    >
+      <div class="row" style="margin-bottom: 50px">
+        <div class="col-sm-6">
+          <label class="label"
+            >Partenaire :<span style="color: red">*</span></label
+          >
+          <input
+            nbInput
+            type="text"
+            style="font-size: 18px; font-weight: bold"
+            class="form-control"
+            fullWidth
+            [value]="selectedPartner?.raisonSociale"
+            disabled
+          />
+        </div>
+        <div class="col-sm-6">
+          <label class="label"
+            >Corps du sms :<span style="color: red">*</span></label
+          >
+          <input
+            nbInput
+            style="font-size: 18px; font-weight: bold"
+            class="form-control"
+            fullWidth
+            type="text"
+            disabled
+          />
+        </div>
+        <div class="col-sm-6">
+          <label class="label"
+            >Destination :<span style="color: red">*</span></label
+          >
+          <input
+            nbInput
+            type="text"
+            style="font-size: 18px; font-weight: bold"
+            class="form-control"
+            fullWidth
+            [value]="selectedPartner?.nTel"
+            disabled
+          />
+        </div>
+        <div class="col-sm-6">
+          <label class="label"
+            >Date Expiration abonnement :<span style="color: red"
+              >*</span
+            ></label
+          >
+          <input
+            nbInput
+            type="date"
+            style="font-size: 18px; font-weight: bold"
+            class="form-control"
+            [value]="selectedAbonnement?.dateFin | date: 'yyyy-MM-dd'"
+            fullWidth
+            disabled
+          />
+        </div>
+      </div>
+      <button
+        nbButton
+        style="
+          float: right;
+          border-color: white;
+          margin-top: 15px;
+          background: #79008e;
+        "
+        type="submit"
+        status="success"
+        class="btn btn-primary mx-2"
+        (click)="
+          valider(selectedPartner.idPartenaire, selectedAbonnement.idAbonnement)
+        "
+      >
+        valider
+      </button>
+      <button
+        nbButton
+        style="float: left; border-color: white; margin-top: 15px"
+        type="submit"
+        status="danger"
+        class="btn btn-danger mx-2"
+        (click)="annuler()"
+      >
+        Annuler
+      </button>
+    </p-dialog>
+
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+
+    <p-table
+      #dt
+      dataKey="id"
+      [value]="partenaires"
+      [paginator]="true"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10]"
+      [(first)]="first"
+      [totalRecords]="6"
+      pageLinkSize="6"
+      (sortFunction)="customSort($event)"
+      [globalFilterFields]="['raisonSociale', 'nTel', 'adresse']"
+    >
+      <ng-template pTemplate="caption">
+        <h6>Table des abonnements</h6>
+        <div class="my-right">
+          <button
+            style="margin-bottom: 20px"
+            pButton
+            label="Ajouter nouveau abonnement"
+            class="p-button-info"
+            id="btn-add"
+            icon="pi pi-edit "
+            (click)="ajouter()"
+          ></button>
+          <br />
+          <span class="p-input-icon-left ml-auto">
+            <input
+              style="height: 40px"
+              pInputText
+              type="text"
+              (input)="dt.filterGlobal($event.target.value, 'contains')"
+              placeholder="      Rechercher  "
+            />
+          </span>
+          <br />
+          <br />
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Logo</th>
+
+          <th pSortableColumn="raisonSociale" style="text-align: center">
+            <p-columnFilter
+              type="text"
+              field="raisonSociale"
+              display="raisonSociale"
+            ></p-columnFilter
+            >Raison sociale<p-sortIcon field="raisonSociale"></p-sortIcon>
+          </th>
+          <th style="text-align: center" pSortableColumn="adresse">
+            <p-columnFilter
+              type="text"
+              field="adresse"
+              display="adresse"
+            ></p-columnFilter
+            >Adresse <p-sortIcon field="adresse"></p-sortIcon>
+          </th>
+          <th pSortableColumn="nTel">
+            <p-columnFilter
+              type="text"
+              field="nTel"
+              display="nTel"
+            ></p-columnFilter
+            >Numéro téléphone<p-sortIcon field="nTel"></p-sortIcon>
+          </th>
+          <th style="text-align: center" pSortableColumn="nbr">
+            Nombre des abonnements<p-sortIcon field="nbr"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-partner>
+        <tr>
+          <td style="text-align: center">
+            <img
+              src="{{ partner.logo }}"
+              alt="logo"
+              width="70px"
+              height="70px"
+            />
+          </td>
+          <td style="font-weight: bold; font-size: medium">
+            {{ partner.raisonSociale }}
+          </td>
+
+          <td>{{ partner.adresse }}</td>
+          <td>{{ partner.nTel }}</td>
+          <td>
+            <div
+              *ngIf="partner.nbr == undefined"
+              style="
+                position: relative;
+                font-weight: bold;
+                font-size: large;
+                text-align: center;
+              "
+            >
+              0
+            </div>
+            <div
+              style="
+                position: relative;
+                font-weight: bold;
+                font-size: x-large;
+                text-align: center;
+                color: rgb(64, 123, 224);
+              "
+              *ngIf="partner.nbr > 0"
+            >
+              <a
+                title="afficher les abonnements"
+                (click)="getListAbonemnt(partner.idPartenaire)"
+              >
+                <ins>{{ partner.nbr }}</ins>
+              </a>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="summary">
+        <div style="font-weight: bold" class="my-right">
+          {{ partenaires?.length }} partenaire(s)
+        </div>
+      </ng-template>
+    </p-table>
+  </nb-card-body>
+</nb-card>

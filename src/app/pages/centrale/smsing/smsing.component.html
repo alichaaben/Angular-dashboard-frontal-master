@@ -1,0 +1,185 @@
+<nb-card>
+  <nb-card-header> </nb-card-header>
+  <nb-card-body>
+    <div class="col-sm-6">
+      <label class="label"> Partenaire<span style="color: red">*</span></label>
+      <p-dropdown
+        [options]="partenaires"
+        optionLabel="raisonSociale"
+        optionValue="idPartenaire"
+        placeholder="&nbsp; Veuillez choisir un partenaire"
+        autoWidth="false"
+        [style]="{ width: '100%', 'font-weight': 'bold' }"
+        [required]="true"
+        [filter]="true"
+        filterPlaceholder="&nbsp;Rechercher"
+        (onChange)="onSelectPartenaire($event)"
+      ></p-dropdown>
+    </div>
+ 
+
+    <div style="margin-top: 40px">
+      <p-table
+        #dt
+        dataKey="idClientPartenaire"
+        [value]="clients"
+        [rowHover]="true"
+        [paginator]="true"
+        [rows]="5"
+        [rowsPerPageOptions]="[5, 10]"
+        [(first)]="first"
+        [totalRecords]="6"
+        pageLinkSize="6"
+        [(selection)]="clientsToSendSMS"
+        selectionMode="multiple"
+        [metaKeySelection]="false"
+        (sortFunction)="customSort($event)"
+        [globalFilterFields]="['nom', 'prenom', 'email', 'nTel']"
+      >
+        <ng-template pTemplate="caption">
+          <h6>Table des clients</h6>
+          <div class="my-right">
+            <span class="p-input-icon-left ml-auto">
+              <input
+                pInputText
+                type="text"
+                (input)="dt.filterGlobal($event.target.value, 'contains')"
+                placeholder="  Rechercher  "
+              />
+            </span>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th pSortableColumn="nom">
+              Nom<p-sortIcon field="nom"></p-sortIcon>
+            </th>
+            <th pSortableColumn="prenom">
+              Prenom<p-sortIcon field="prenom"></p-sortIcon>
+            </th>
+            <th pSortableColumn="email">
+              Email<p-sortIcon field="email"></p-sortIcon>
+            </th>
+            <th>Numero téléphone</th>
+            <th>Actif</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-c>
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="c"></p-tableCheckbox>
+            </td>
+            <td>{{ c.nom }}</td>
+            <td>{{ c.prenom }}</td>
+            <td>{{ c.email }}</td>
+            <td>{{ c.nTel }}</td>
+            <td>
+              <div *ngIf="c.isconnected == 1">connecté</div>
+              <div *ngIf="c.isconnected == 0">non connecté</div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary">
+          <div style="font-weight: bold" class="my-right">
+            Total : {{ clients?.length }} clients(s)
+          </div>
+          <div style="font-weight: bold" class="my-right">
+            Clients selectionnés: {{ clientsToSendSMS?.length }} clients(s)
+          </div>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <button
+      nbButton
+      style="
+        float: right;
+        border-color: white;
+        margin-top: 15px;
+        background: #79008e;
+      "
+      type="submit"
+      status="success"
+      class="btn btn-primary mx-2"
+      icon="pi pi-telegram"
+      (click)="envoyer()"
+    >
+      Valider
+    </button>
+  </nb-card-body>
+</nb-card>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<p-dialog
+  header="Envoyer SMS"
+  [closable]="false"
+  [(visible)]="display"
+  [style]="{ width: '50vw' }"
+  [modal]="true"
+>
+  <form [formGroup]="smsToSendForm">
+    <div class="row">
+      <div class="col-sm-6">
+        <label class="label">partenaire :</label>
+        <!-- <input nbInput fullWidth type="text" formControlName="sender"> -->
+        <h6>{{partenaire?.raisonSociale}}</h6>
+      </div>
+
+      <div class="col-sm-6">
+        <label class="label">Logo</label>
+        <h6>
+          <img
+            src="{{ partenaire?.logo }}"
+            alt="logo"
+            width="70px"
+            height="100px"
+          />
+        </h6>
+      </div>
+
+      <div class="col-sm-6">
+        <label class="label"
+          >Corps du sms :<span style="color: red">*</span></label
+        >
+        <textarea
+          nbInput
+          style="font-size: 18px; font-weight: bold"
+          class="form-control"
+          fullWidth
+          type="text"
+          formControlName="body"
+        ></textarea>
+      </div>
+    </div>
+  </form>
+  <button
+    nbButton
+    style="
+      float: right;
+      border-color: white;
+      margin-top: 15px;
+      background: #79008e;
+    "
+    type="submit"
+    status="success"
+    class="btn btn-primary mx-2"
+    (click)="EnvoyerClientsSMS()"
+  >
+    Envoyer
+  </button>
+  <button
+    nbButton
+    style="float: left; border-color: white; margin-top: 15px"
+    type="submit"
+    status="danger"
+    class="btn btn-danger mx-2"
+    (click)="annulerEnvoeySMS()"
+  >
+    Annuler
+  </button>
+</p-dialog>

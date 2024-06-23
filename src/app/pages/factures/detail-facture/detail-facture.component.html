@@ -1,0 +1,435 @@
+<p-toast></p-toast>
+
+<div class="container ">
+  <ol class="breadcrumb shadow-lg bg-white">
+
+      <li class="breadcrumb-item ">  <a  routerLink="/pages" class="breadcrumbs__link"> <i class="pi pi-home"></i> Accueil</a></li>
+      <li class="breadcrumb-item "> <a routerLink="/pages/facture/listfactures" class="breadcrumbs__link">List des factures</a></li>
+      <li class="breadcrumb-item "><a   routerLink="/pages/facture/listfactures/detailFacture/:id"  class="breadcrumbs__link breadcrumbs__link--active">detail facture</a> </li>
+  </ol>
+</div>
+
+<div class="container-fluid mt-100 mb-100">
+  <div id="ui-view">
+    <div class="row">
+
+    </div>
+    <br>
+    <br>
+
+      <div class="print-container"  id="htmlData">
+          <div class="card">
+
+            <div class="page-content container">
+                <div class="page-header text-blue-d2">
+                    <h1 class="page-title text-secondary-d1">
+                        Facture
+                        <small class="page-info">
+                            <i class="fa fa-angle-double-right text-80"></i>
+                            {{selectedFacture.numFacture}}
+                        </small>
+                    </h1>
+
+                    <div class="page-tools">
+                        <div class="action-buttons">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container px-0">
+                    <div class="row mt-4">
+                        <div class="col-12 col-lg-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="text-center text-150">
+                                        <div class="col-lg-8 col-sm-5 ml-auto">
+                                          <div class="col-lg-4 "> <img src="assets/images/index.jpg" alt="Trulli" width="150" height="70 " >
+                                          </div>
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+
+                            <!-- .row -->
+
+                            <hr class="row brc-default-l1 mx-n1 mb-4" />
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="text-sm text-grey-m2 align-middle">Client: </span>
+                                        <span class="text-600 text-110 text-blue align-middle">{{selectedPart.raisonSociale}}</span>
+                                    </div>
+                                    <div class="text-grey-m2">
+                                        <div class="my-1">
+                                         Adresse : {{selectedPart.adresse}}
+                                        </div>
+                                        <div class="my-1">
+                                          {{selectedPart.emailResponsable}}
+                                        </div>
+                                        <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="text-600"> {{selectedPart.nTel}}</b></div>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+
+                                <div class="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end">
+                                    <hr class="d-sm-none" />
+                                    <div class="text-grey-m2">
+                                        <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">
+                                            Facture
+                                        </div>
+
+                                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Numéro de facture:</span> #{{selectedFacture.numFacture}}</div>
+
+                                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Date de créaction :</span> {{selectedFacture.dateCreation |  date: "dd/MM/yyyy"}}</div>
+
+                                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Statut:</span> <span class="badge badge-warning badge-pill px-25"> {{selectedFacture.statusFacture}}</span></div>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <br>
+
+                            <div class="mt-4">
+                                <tr class="row text-600 text-white bgc-default-tp1 py-25">
+                                    <th class="col-9 col-sm-3">Produit Adcaisse</th>
+                                    <th class="d-none d-sm-block col-1">Quantité</th>
+                                    <th class="col-2">Prix</th>
+                                    <th class="col-1 text-secondary-d8">TVA</th>
+
+                                    <th class="d-none d-sm-block col-2 text-95">Remise</th>
+
+                                    <th class="col-1 text-secondary-d2">Total (HT):</th>
+                                    <th class="col-1">Total (TTC):</th>
+
+
+                                </tr>
+
+
+                                <div class="text-95 text-secondary-d3">
+                                    <tr class="row mb-2 mb-sm-0 py-25 bgc-default-l4"  *ngFor="let det of selecteddetail,let i=index">
+                                        <td class="col-9 col-sm-3">{{det.codeProduit}}</td>
+                                        <td class="d-none d-sm-block col-1">{{det.quantite}}</td>
+                                        <td class="col-2 text-secondary-d">{{det.prix}}</td>
+                                        <td class="col-1 text-secondary-d8">{{det.tva}}</td>
+
+                                        <td class="d-none d-sm-block col-2 text-95">{{det.remise}}</td>
+                                        <td class="col-1 text-secondary-d2">{{det.prix*det.quantite*((100-det.remise)/100)}}</td>
+                                        <td class="col-1 text-secondary-d2">{{det.totalprix}}</td>
+
+                                    </tr>
+                                </div>
+
+
+                                <div class="row border-b-2 brc-default-l2"></div>
+
+
+
+                                <div class="row mt-3">
+                                    <div class="col-12 col-sm-7 text-grey-d2 text-95 mt-2 mt-lg-0">
+
+                                    </div>
+
+                                    <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
+                                        <div class="row my-2">
+                                            <div class="col-7 text-right">
+
+                                            </div>
+                                            <div class="col-5">
+                                                <span class="text-120 text-secondary-d1"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row my-2">
+                                            <div class="col-7 text-right">
+
+                                            </div>
+                                            <div class="col-5">
+                                                <span class="text-110 text-secondary-d1"></span>
+                                            </div>
+                                        </div>
+                                          <br>
+                                        <div class="row mb-2 mb-sm-0 py-25 bgc-default-l4">
+                                            <div class="col-7 text-right">
+                                              Prix Total (HT):
+                                            </div>
+                                            <div class="col-5"  >
+                                                <span class="text-120 text-secondary-d1">{{totalprice}} DT</span>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="row mb-2 mb-sm-0 py-25 bgc-default-l4">
+                                          <div class="col-7 text-right">
+                                            Total TVA:
+                                          </div>
+                                          <div class="col-5"  >
+                                              <span class="text-120 text-secondary-d1">{{puretva}} DT</span>
+                                          </div>
+
+                                      </div>
+
+                                        <div class="row mb-2 mb-sm-0 py-25 bgc-default-l4">
+                                          <div class="col-7 text-right">
+                                            Prix Total (TTC):
+                                          </div>
+                                          <div class="col-5"  >
+                                            <span class="text-150 text-success-d3 opacity-1">{{selectedFacture.totalpricetva}} DT</span>
+                                        </div>
+
+                                      </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                  <div class="col-12 col-sm-7 text-grey-d2 text-95 mt-2 mt-lg-0">
+
+                                  </div>
+
+                                  <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
+                                      <div class="row my-2">
+                                          <div class="col-7 text-right">
+
+                                          </div>
+                                          <div class="col-5">
+                                              <span class="text-120 text-secondary-d1"></span>
+                                          </div>
+                                      </div>
+
+                                      <div class="row my-2">
+                                          <div class="col-7 text-right">
+
+                                          </div>
+                                          <div class="col-5">
+                                              <span class="text-110 text-secondary-d1"></span>
+                                          </div>
+                                      </div>
+                                        <br>
+                                      <div class="row mb-2 mb-sm-0 py-25 bgc-default-l4">
+                                          <div class="col-7 text-right">
+                                            Montant total payé :
+                                          </div>
+                                          <div class="col-5"   >
+                                              <span class="text-120 text-secondary-d1">{{this.totalMont}} DT</span>
+                                          </div>
+
+                                      </div>
+
+                                      <div class="row mb-2 mb-sm-0 py-25 bgc-default-l4">
+                                        <div class="col-7 text-right">
+                                          Montant restant  :
+                                        </div>
+                                        <div class="col-5"   >
+                                            <span class="text-120 text-secondary-d1">{{this.montantrest}} DT</span>
+                                        </div>
+
+                                    </div>
+
+
+
+
+
+                                  </div>
+                              </div>
+
+
+
+
+
+                          </div>
+
+
+
+
+
+
+                                <div class="mt-4">
+
+
+                                  <div class="row border-b-2 brc-default-l2"></div>
+
+                                <hr />
+
+                                <div>
+                                    <span class="text-secondary-d1 text-105"> Twins Digital Labs.</span>
+
+                                     </div>
+                                      <div>
+                                      <span class="text-secondary-d1 text-105"> Ariana : Technopole Ghazela</span>
+                                      </div>
+                                      <div>
+                                      <span class="text-secondary-d1 text-105"> Email: contact@twinsdigitallabs.com</span>
+
+                                      </div>
+                                      <br>
+
+                                      <div class="page-tools">
+                                          <div class="action-buttons">
+
+                                              <button  id="dd" nbButton status="warning"  (click)="downloadInvoice()"   ><nb-icon icon="file-text-outline"></nb-icon> Générer la facture</button>
+                                              <button id="dd" nbButton status="info" icon="pi pi-bell" styleClass="p-button-warning" (click)="showmailingdialog()"  badgeClass="p-badge-danger"><nb-icon icon="paper-plane-outline"></nb-icon>  Notifier avec un E-mail</button>
+                                              <button id="dd" nbButton status="info"  (click)="showsmsDialog()"  badgeClass="p-badge-danger"><nb-icon icon="message-square-outline"></nb-icon>    Notifier avec un Sms</button>
+
+
+                                         </div>
+                                      </div>
+                                  <br>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+
+<br>
+      <div>
+</div>
+
+
+</div>
+</div>
+
+<div>
+<!--Email Dilog -->
+<form name="form" #u="ngForm"  (ngSubmit)="envmail()">
+
+  <p-dialog header="Notification E-mail :  " styleClass="myClass" [(visible)]="displaysaveDialog"    [responsive]="true" [style]="{width: '800px'}" [modal]="true">
+
+    <div class="ui-g ui-fluid"  >
+      <div class="form-group">
+        <label> destinataire :</label>
+        <input type="text" name="recipient " class="form-control" disabled=""
+               ngModel [(ngModel)]="mail.recipient"  #pv="ngModel" class="form-control"
+               id="numfacture" />
+      </div>
+      <div class="alert alert-danger" *ngIf="pv.invalid && pv.touched">
+        nom de produit est un champ obligatoire!
+      </div>
+
+        <div class="ui-g ui-fluid">
+            <div class="form-group">
+                <label for="apellido">Objet :</label>
+
+
+                <input pInputText  type="text" name="ption" disabled class="form-control"
+                 required id="apo"  [(ngModel)]="mail.subject" #sd="ngModel"  />
+                </div>
+            <div class="alert alert-danger" *ngIf="sd.invalid && sd.touched">
+              Description est un champ obligatoire !
+            </div>
+        </div>
+
+        <div class="ui-g ui-fluid">
+          <div class="form-group">
+              <label for="apellido">Corps du message:</label>
+              <textarea rows = "5" cols = "60" name = "description" name="Description"  id="apellido" class="form-control"
+              required id="apellido"   [(ngModel)]="mail.msgBody" #kd="ngModel"></textarea>
+
+              </div>
+          <div class="alert alert-danger" *ngIf="kd.invalid && sd.touched">
+            Description est un champ obligatoire !
+          </div>
+      </div>
+
+
+
+    </div>
+    <p-footer>
+
+        <div>
+          <button id="sder"status="info" type="button" nbButton [disabled]="u.invalid"  name="montant" (click)="envmail()" [disabled]="loading">{{ loading ? 'Loading...' : 'Notifier' }}</button>
+          <button id="pdre" status="danger" type="button" nbButton [disabled]="u.invalid"  name="montant" (click)="envmailfull()">{{ loading ? 'Loading...' : 'Envoyer Facture' }}<nb-icon icon="file-add-outline"></nb-icon> </button>
+
+        </div>
+    </p-footer>
+
+
+</p-dialog>
+
+
+
+</form>
+
+
+</div>
+
+
+
+
+
+
+
+<div>
+<!--  Sms Dilog -->
+  <form name="formsms" #s="ngForm"  (ngSubmit)="envSms()">
+
+    <p-dialog header="Notification Sms : " styleClass="myClass" [(visible)]="displaysavesmsDialog"    [responsive]="true" [style]="{width: '800px'}" [modal]="true">
+
+      <div class="ui-g ui-fluid"  >
+        <div class="form-group">
+          <label> Destinataire :</label>
+          <input type="text" name="recipient " class="form-control" disabled=""
+                 ngModel [(ngModel)]="sms.phoneNumber"  #pv="ngModel" class="form-control"
+                 id="numfacture" />
+        </div>
+        <div class="alert alert-danger" *ngIf="pv.invalid && pv.touched">
+          numero telephone de partenaire est un champ obligatoire!
+        </div>
+
+          <div class="ui-g ui-fluid">
+              <div class="form-group">
+                  <label for="apellido">Message :</label>
+
+
+                  <input pInputText  type="text" name="ption"  class="form-control"
+                   required id="apo"  [(ngModel)]="sms.message" #sd="ngModel"  />
+                  </div>
+              <div class="alert alert-danger" *ngIf="sd.invalid && sd.touched">
+                Le message est un champ obligatoire !
+              </div>
+          </div>
+
+
+
+
+
+      </div>
+      <p-footer>
+
+          <div>
+
+            <button type="button" pid="pdre" status="danger"  nbButton [disabled]="s.invalid"  name="montant" (click)="envSms()">{{ loading ? 'Loading...' : 'Notifier' }}<nb-icon icon="arrow-forward-outline"></nb-icon></button>
+
+          </div>
+      </p-footer>
+
+
+  </p-dialog>
+
+
+
+  </form>
+
+
+  </div>
+
+
+

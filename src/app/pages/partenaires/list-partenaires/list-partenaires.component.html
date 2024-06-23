@@ -1,0 +1,217 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="bcca-breadcrumb">
+  <div class="bcca-breadcrumb-item">List des partenaires <i class="fa fa-pencil"></i></div>
+  <div class="bcca-breadcrumb-item">  <a [routerLink]="['/pages/dashboard']" >Home</a>  </div>
+</div>
+
+<nb-card>
+  <nb-card-header>
+    <div>
+      <div class="col-md-6">
+        <span style="font-size: 25px"> Gestion des partenaires </span>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body
+    ><div class="card" style="margin-bottom: 40px">
+      <p-table
+        #dt
+        dataKey="id"
+        [value]="partenaires"
+        [paginator]="true"
+        [rows]="10"
+        [(first)]="first"
+        [rowsPerPageOptions]="[10, 15, 20]"
+        [totalRecords]="6"
+        pageLinkSize="6"
+        (sortFunction)="customSort($event)"
+        [globalFilterFields]="[
+          'raisonSociale',
+          'nTel',
+          'adresse',
+          'dateCreation',
+          'abbreviation',
+          'fActif',
+          'devise',
+          'matriculeFiscale'
+        ]"
+      >
+        <ng-template pTemplate="caption">
+          <div class="my-right">
+            <button
+              style="margin-bottom: 20px"
+              pButton
+              label="Ajouter un nouveau partenaire"
+              class="p-button-info"
+              id="btn-add"
+              (click)="ajouter()"
+              icon="pi pi-user-plus
+              "
+            ></button>
+            <br />
+            <span class="p-input-icon-left ml-auto">
+              <input
+                pInputText
+                type="text"
+                (input)="dt.filterGlobal($event.target.value, 'contains')"
+                placeholder="  Rechercher  "
+              />
+            </span>
+            <br />
+            <br />
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="text-align: center">Logo</th>
+            <th pSortableColumn="raisonSociale">
+              <p-columnFilter
+                type="text"
+                field="raisonSociale"
+                display="raisonSociale"
+              ></p-columnFilter>
+              Raison sociale <p-sortIcon field="matriculeFiscale"></p-sortIcon>
+            </th>
+            <th pSortableColumn="adresse">
+              <p-columnFilter
+                type="text"
+                field="adresse"
+                display="adresse"
+              ></p-columnFilter
+              >ADRESSE <p-sortIcon field="adresse"></p-sortIcon>
+            </th>
+
+            <th pSortableColumn="dateCreation">
+              <p-columnFilter
+                type="date"
+                field="dateCreation"
+                display="dateCreation"
+              ></p-columnFilter
+              >Date création <p-sortIcon field="dateCreation"></p-sortIcon>
+            </th>
+
+            <th pSortableColumn="nTel">
+              <p-columnFilter
+                type="text"
+                field="nTel"
+                display="nTel"
+              ></p-columnFilter
+              >Téléphone <p-sortIcon field="nTel"></p-sortIcon>
+            </th>
+
+            <th pSortableColumn="fActif">
+              Status<p-sortIcon field="fActif"></p-sortIcon>
+            </th>
+            <th style="text-align: center">Nombre points de vente</th>
+
+            <th style="text-align: center">Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-partner>
+          <tr>
+            <td style="text-align: center">
+              <img
+                src="{{ partner.logo }}"
+                alt="logo"
+                width="70px"
+                height="70px"
+              />
+            </td>
+            <td>
+              <h6>{{ partner.raisonSociale }}</h6>
+            </td>
+            <td>{{ partner.adresse }}</td>
+            <td>{{ partner.dateCreation | date: "dd/MM/yyyy" }}</td>
+            <td>{{ partner.nTel }}</td>
+            <td style="text-align: center">
+              <div *ngIf="partner.fActif">
+                <button class="btn-actif">actif</button>
+              </div>
+              <div *ngIf="partner.fActif == 0">
+                <button class="btn-inactif">inactif</button>
+              </div>
+            </td>
+            <td
+              style="
+                position: relative;
+                font-weight: bold;
+                font-size: x-large;
+                text-align: center;
+              "
+            >
+              <a
+                title="afficher les points de vente"
+                [routerLink]="['/pages/points-vente/', partner.idPartenaire]"
+              >
+                {{ partner.nbrePV }}</a
+              >
+            </td>
+
+            <td>
+              <a
+                [routerLink]="[
+                  '/pages/partenaires/modifier-partenaire/',
+                  partner.idPartenaire
+                ]"
+              >
+                <button
+                  title="modifier"
+                  pButton
+                  pRipple
+                  icon="pi pi-user-edit"
+                  class="p-button-rounded p-button-info mr-2"
+                ></button
+              ></a>
+              <!-- [queryParams]="{ 'path': partner.raisonSociale}" skipLocationChange -->
+              <a
+                [routerLink]="[
+                  '/pages/points-vente/localisation-point-vente',
+                  partner.idPartenaire
+                ]"
+              >
+                <button
+                  title="Localisation points vente"
+                  pButton
+                  pRipple
+                  icon="pi pi-map-marker"
+                  class="p-button-rounded p-button-success"
+                  (click)="delete(partner.idPartenaire)"
+                ></button
+              ></a>
+              &nbsp;
+
+              <button
+                title="débloquer"
+                [hidden]="partner.fActif == 1"
+                pButton
+                pRipple
+                icon="pi pi-lock-open"
+                class="p-button-rounded p-button-warning"
+                (click)="deblockPartenaire(partner.idPartenaire)"
+              ></button>
+              <button
+                title="bloquer"
+                [hidden]="partner.fActif == 0"
+                pButton
+                pRipple
+                icon="pi pi-lock"
+                class="p-button-rounded p-button-warning"
+                (click)="blockPartenaire(partner.idPartenaire)"
+              ></button>
+              &nbsp;
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary">
+          <div style="font-weight: bold" class="my-right">
+            {{ partenaires?.length }} partenaire(s)
+          </div>
+        </ng-template>
+      </p-table>
+    </div></nb-card-body
+  >
+</nb-card>
